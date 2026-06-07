@@ -11,18 +11,6 @@ public class CityDTO {
 	private String districtName;
 	private String stateName;
 
-	// Constructors
-	public CityDTO() {
-	}
-
-	public CityDTO(String cityName, String districtName, String stateName) {
-		this.cityName = cityName;
-		this.districtName = districtName;
-		this.stateName = stateName;
-	}
-
-	// Getters & Setters
-
 	public String getCityName() {
 		return cityName;
 	}
