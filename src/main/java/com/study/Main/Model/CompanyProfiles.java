@@ -16,12 +16,10 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "company_profiles")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyProfiles {

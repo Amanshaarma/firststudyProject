@@ -3,11 +3,9 @@ package com.study.Main.Dto;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//dto/response/CompanyResponseDTO.java
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyResponseDTO {

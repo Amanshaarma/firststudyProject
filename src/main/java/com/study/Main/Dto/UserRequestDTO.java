@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//dto/request/UserRequestDTO.java
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {

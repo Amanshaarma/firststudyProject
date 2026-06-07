@@ -15,14 +15,13 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "groups", indexes = { @Index(name = "idx_group_name", columnList = "group_name"),
 		@Index(name = "idx_group_type", columnList = "group_type"),
 		@Index(name = "idx_company_id", columnList = "company_id") })
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group {
