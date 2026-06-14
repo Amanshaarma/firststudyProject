@@ -15,7 +15,7 @@ public class CityDTO {
 		return cityName;
 	}
 
-	public void setCityName(String cityName) {
+	public void setCityName(String cityName) { 
 		this.cityName = cityName;
 	}
 

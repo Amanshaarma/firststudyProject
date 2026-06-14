@@ -1,5 +1,8 @@
 package com.study.Main.Service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 
 import com.study.Main.Dto.GroupRequestDTO;
@@ -10,11 +13,13 @@ public interface GroupService {
 
 	GroupResponseDTO getGroupById(Long groupId);
 
-	Page<GroupResponseDTO> getGroupsByCompanyId(Long companyId, int page, int size);
+	Page<Map<String, Object>> getGroups(Long companyId, List<String> select, int page, int size);
 
 	Page<GroupResponseDTO> getGroupsByParentId(Long parentGroupId, int page, int size);
 
 	Page<GroupResponseDTO> getGroupsByType(String groupType, int page, int size);
 
 	Page<GroupResponseDTO> getRootGroups(int page, int size);
+
+	void deleteGroup(Long groupId);
 }

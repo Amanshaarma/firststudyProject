@@ -11,19 +11,25 @@ import com.study.Main.Model.Group;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
- // Find by company — paginated
- Page<Group> findByCompanyProfileCompanyId(Long companyId, Pageable pageable);
+	// Find by company — paginated
+	Page<Group> findByCompanyProfileCompanyId(Long companyId, Pageable pageable);
 
- // Find by parent group — paginated
- Page<Group> findByParentGroupGroupId(Long parentGroupId, Pageable pageable);
+	// Find by parent group — paginated
+	Page<Group> findByParentGroupGroupId(Long parentGroupId, Pageable pageable);
 
- // Find by group type — paginated
- Page<Group> findByGroupType(String groupType, Pageable pageable);
+	// Find by group type — paginated
+	Page<Group> findByGroupType(String groupType, Pageable pageable);
 
- // Find root groups (no parent) — paginated
- Page<Group> findByParentGroupIsNull(Pageable pageable);
+	// Find root groups (no parent) — paginated
+	Page<Group> findByParentGroupIsNull(Pageable pageable);
 
- // Duplicate check
- boolean existsByGroupNameAndCompanyProfileCompanyId(
-         String groupName, Long companyId);
+	boolean existsByParentGroup_GroupId(Long groupId);
+
+	// Duplicate check
+	boolean existsByGroupNameAndCompanyProfileCompanyId(String groupName, Long companyId);
+	
+	// repository/GroupRepository.java
+
+	// Add this method
+	boolean existsByGroupIdAndCompanyProfileCompanyId(Long groupId, Long companyId);
 }
