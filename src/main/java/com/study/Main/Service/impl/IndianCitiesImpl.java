@@ -2,6 +2,8 @@ package com.study.Main.Service.impl;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.study.Main.Dto.CityDTO;
@@ -25,22 +27,24 @@ public class IndianCitiesImpl implements IIndianCities{
 	}
 
 	@Override
-	public List<CityDTO> getAllCities() {
+	@Cacheable("cities")
+	public List<IndianCities> getAllCities() {
 		// TODO Auto-generated method stub
-		List<CityDTO> ans =cityMapper.toDTOList( (List<IndianCities>) indianCitiesRepo.findAll());		
+		List<IndianCities> ans = (List<IndianCities>) indianCitiesRepo.findAll();		
 		return ans;
 	}
 
 
 	@Override
-	public CityDTO getCityById(String city) {
+	public IndianCities getCityById(String city) {
 		// TODO Auto-generated method stub
-		CityDTO ans = cityMapper.toDTO(indianCitiesRepo.findByCityName(city).get());
+		IndianCities ans = indianCitiesRepo.findByCityName(city).get();
 		return ans;
 	}
 
 	@Override
     @Transactional          // ensures all DB ops succeed or rollback
+    @CacheEvict(value = "cities", allEntries = true)
     public CityDTO addCity(CityDTO request) {
 
         // Check if city already exists

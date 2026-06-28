@@ -2,8 +2,8 @@ package com.study.Main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @ComponentScan("com.study.Main.controller")
@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ComponentScan("com.study.Main.Mapper")
 @ComponentScan("com.study.Main.Expection")
 @ComponentScan("com.study.Main.*")
+@EnableCaching
 public class FirststudyProjectApplication {
 
 	public static void main(String[] args) {

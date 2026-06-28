@@ -3,12 +3,13 @@ package com.study.Main.Service;
 import java.util.List;
 
 import com.study.Main.Dto.CityDTO;
+import com.study.Main.Model.IndianCities;
 
 public interface IIndianCities 
 {
-	List<CityDTO> getAllCities();
+	List<IndianCities> getAllCities();
 
-	CityDTO getCityById(String city); 
+	IndianCities getCityById(String city); 
 
 	CityDTO addCity(CityDTO request);
 }

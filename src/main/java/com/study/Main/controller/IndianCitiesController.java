@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.Main.Dto.CityDTO;
+import com.study.Main.Model.IndianCities;
 import com.study.Main.Service.IIndianCities;
 import com.study.Main.response.ApiResponsePattern;
 
@@ -31,13 +32,13 @@ public class IndianCitiesController {
 	}
 
 	@GetMapping("/allCities")
-	public ResponseEntity<ApiResponsePattern<List<CityDTO>>> getAllCities() {
-        List<CityDTO> cities = citiesService.getAllCities();
+	public ResponseEntity<ApiResponsePattern<List<IndianCities>>> getAllCities() {
+        List<IndianCities> cities = citiesService.getAllCities();
         return ResponseEntity.ok(ApiResponsePattern.success(cities));
     }
 	@GetMapping("/{city}")
-    public ResponseEntity<ApiResponsePattern<CityDTO>> getCityById(@PathVariable String city) {
-        CityDTO cityGet = citiesService.getCityById(city);
+    public ResponseEntity<ApiResponsePattern<IndianCities>> getCityById(@PathVariable String city) {
+		IndianCities cityGet = citiesService.getCityById(city);
         return ResponseEntity.ok(ApiResponsePattern.success(cityGet));
     }
 	@PostMapping
