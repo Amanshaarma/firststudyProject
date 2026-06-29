@@ -2,8 +2,15 @@ package com.study.Main.Model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
+
+import com.study.Main.enumData.GroupType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,8 +54,10 @@ public class Group {
 	@Column(name = "group_name", nullable = false)
 	private String groupName;
 
-	@Column(name = "group_type", nullable = false)
-	private String groupType;
+	@Enumerated(EnumType.STRING)
+	@JdbcType(PostgreSQLEnumJdbcType.class)
+	@Column(name = "group_type", columnDefinition = "group_type_enum")
+	private GroupType groupType;
 
 	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
@@ -96,11 +105,11 @@ public class Group {
 		this.groupName = groupName;
 	}
 
-	public String getGroupType() {
+	public GroupType getGroupType() {
 		return groupType;
 	}
 
-	public void setGroupType(String groupType) {
+	public void setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 	}
 

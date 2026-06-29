@@ -1,5 +1,7 @@
 package com.study.Main.Dto;
 
+import com.study.Main.enumData.GroupType;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,8 +17,8 @@ public class GroupRequestDTO {
 	@NotBlank(message = "Group name is required")
 	private String groupName;
 
-	@NotBlank(message = "Group type is required")
-	private String groupType;
+	@NotNull(message = "Group type is required")
+	private GroupType groupType;
 
 	public Long getCompanyId() {
 		return companyId;
@@ -50,11 +52,11 @@ public class GroupRequestDTO {
 		this.groupName = groupName;
 	}
 
-	public String getGroupType() {
+	public GroupType getGroupType() {
 		return groupType;
 	}
 
-	public void setGroupType(String groupType) {
+	public void setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 	}
 
@@ -63,5 +65,4 @@ public class GroupRequestDTO {
 		return "GroupRequestDTO [companyId=" + companyId + ", globalGroupId=" + globalGroupId + ", parentGroupId="
 				+ parentGroupId + ", groupName=" + groupName + ", groupType=" + groupType + "]";
 	}
-
 }

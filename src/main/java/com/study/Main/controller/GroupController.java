@@ -46,7 +46,7 @@ public class GroupController {
 
 	@GetMapping
 	public ResponseEntity<ApiResponsePattern<Page<Map<String, Object>>>> getGroups(
-			@RequestParam(required = false) Long companyId, @RequestParam(required = false) List<String> select,
+			@RequestParam(required = true) Long companyId, @RequestParam(required = false) List<String> select,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
 
 		return ResponseEntity.ok(ApiResponsePattern.success(groupService.getGroups(companyId, select, page, size)));

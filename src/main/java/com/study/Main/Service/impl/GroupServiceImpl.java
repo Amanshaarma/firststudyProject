@@ -64,7 +64,7 @@ public class GroupServiceImpl implements GroupService {
 		group.setCompanyProfile(companyProfile);
 
 		// 4. ✅ Parent group — check exists AND belongs to same company
-		if (request.getParentGroupId() != null) {
+		if (request.getParentGroupId() != null  && request.getParentGroupId() > 0) {						
 
 			// Check parent exists in same company
 			if (!groupRepository.existsByGroupIdAndCompanyProfileCompanyId(request.getParentGroupId(),
