@@ -40,7 +40,7 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupId}")
-	public ResponseEntity<ApiResponsePattern<GroupResponseDTO>> getGroupById(@PathVariable Long groupId) {
+	public ResponseEntity<ApiResponsePattern<GroupResponseDTO>> getGroupById(@PathVariable Long groupId,@RequestParam(required = false) List<String> select) {
 		return ResponseEntity.ok(ApiResponsePattern.success(groupService.getGroupById(groupId)));
 	}
 

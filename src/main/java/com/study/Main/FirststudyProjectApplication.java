@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.study.Main.Mapper")
 @ComponentScan("com.study.Main.Expection")
 @ComponentScan("com.study.Main.*")
+@ComponentScan("com.study.Main.util")
 @EnableCaching
 public class FirststudyProjectApplication {
 

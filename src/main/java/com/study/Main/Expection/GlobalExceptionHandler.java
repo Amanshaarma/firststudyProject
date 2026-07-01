@@ -16,7 +16,7 @@ import com.study.Main.response.ApiResponsePattern;
 
 //exception/GlobalExceptionHandler.java
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler  {
 
 	// 404 - Not Found
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -33,6 +33,11 @@ public class GlobalExceptionHandler {
 	// 400 - Bad Request
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ApiResponsePattern<Object>> handleBadRequestException(BadRequestException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponsePattern.failure(ex.getMessage()));
+	}
+	
+	@ExceptionHandler(CompanyNofFound.class)
+	public ResponseEntity<ApiResponsePattern<Object>> handleBCompanyNofFound(CompanyNofFound ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponsePattern.failure(ex.getMessage()));
 	}
 
@@ -54,7 +59,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponsePattern<Object>> handleHttpMessageNotReadableException(
 			HttpMessageNotReadableException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(ApiResponsePattern.failure("Invalid request body format"));
+				.body(ApiResponsePattern.failure("Invalid request body format"+ex.getMessage()));
 	}
 
 	// 405 - Wrong HTTP method
@@ -69,6 +74,6 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiResponsePattern<Object>> handleGlobalException(Exception ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-				.body(ApiResponsePattern.failure("Something went wrong. Please try again later."));
+				.body(ApiResponsePattern.failure(ex.getMessage()));
 	}
 }
