@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.study.Main.enumData.GroupType;
 import com.study.Main.Dto.LedgerRequestDTO;
 import com.study.Main.Dto.LedgerResponseDTO;
 import com.study.Main.Expection.BadRequestException;
@@ -48,12 +49,8 @@ public class LedgerServiceImpl implements LedgerService {
 
 	// ✅ GET by ID
 	@Override
-	public Map<String, Object> getLedgerById(Long ledgerId, List<String> select,Long companyId) {
-		
-		CompanyProfiles company = companyProfileRepository.findById(companyId).orElseThrow(() -> new CompanyNofFound("No company with given id : " + companyId));
+	public Map<String, Object> getLedgerById(Long ledgerId, List<String> select) {
 
-		
-		
 		Ledger ledger = ledgerRepository.findById(ledgerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Ledger not found: " + ledgerId));
 
@@ -65,7 +62,7 @@ public class LedgerServiceImpl implements LedgerService {
 
 	// ✅ GET All
 	@Override
-	public Page<Map<String, Object>> getAllLedgers(Long companyId, List<String> select, List<Character> groupTypes,
+	public Page<Map<String, Object>> getAllLedgers(Long companyId, List<String> select, List<GroupType> groupTypes,
 			int page, int size) {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by("ledgerName").ascending());
@@ -175,11 +172,6 @@ public class LedgerServiceImpl implements LedgerService {
 
 		Ledger ledger = ledgerRepository.findById(ledgerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Ledger not found: " + ledgerId));
-
-		if (ledgerRepository.existsByGroupGroupId(ledger.getGroup().getGroupId())) {
-			throw new BadRequestException(
-					"Cannot delete ledger '" + ledger.getLedgerName() + "' because it has child records.");
-		}
 
 		ledgerRepository.deleteById(ledgerId);
 	}

@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,7 +17,7 @@ import com.study.Main.response.ApiResponsePattern;
 
 //exception/GlobalExceptionHandler.java
 @RestControllerAdvice
-public class GlobalExceptionHandler  {
+public class GlobalExceptionHandler {
 
 	// 404 - Not Found
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -35,7 +36,7 @@ public class GlobalExceptionHandler  {
 	public ResponseEntity<ApiResponsePattern<Object>> handleBadRequestException(BadRequestException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponsePattern.failure(ex.getMessage()));
 	}
-	
+
 	@ExceptionHandler(CompanyNofFound.class)
 	public ResponseEntity<ApiResponsePattern<Object>> handleBCompanyNofFound(CompanyNofFound ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponsePattern.failure(ex.getMessage()));
@@ -54,12 +55,21 @@ public class GlobalExceptionHandler  {
 				.body(ApiResponsePattern.failure("Validation failed", errors));
 	}
 
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	    public ResponseEntity<ApiResponsePattern<Object>> handleDataIntegrityViolation(
+	            DataIntegrityViolationException ex) {
+
+	        String message = "Unable to delete this ledger because it is associated with existing transactions." + ex.getMessage();
+
+	        return ResponseEntity.badRequest()
+	                .body(ApiResponsePattern.failure( message));
+	}
 	// 400 - Invalid JSON body
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<ApiResponsePattern<Object>> handleHttpMessageNotReadableException(
 			HttpMessageNotReadableException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-				.body(ApiResponsePattern.failure("Invalid request body format"+ex.getMessage()));
+				.body(ApiResponsePattern.failure("Invalid request body format" + ex.getMessage()));
 	}
 
 	// 405 - Wrong HTTP method

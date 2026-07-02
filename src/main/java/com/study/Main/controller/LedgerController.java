@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.Main.Dto.LedgerRequestDTO;
 import com.study.Main.Dto.LedgerResponseDTO;
 import com.study.Main.Service.LedgerService;
+import com.study.Main.enumData.GroupType;
 import com.study.Main.response.ApiResponsePattern;
 
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class LedgerController {
  public ResponseEntity<ApiResponsePattern<Page<Map<String, Object>>>> getAllLedgers(
          @RequestParam(required = true) Long companyId,
          @RequestParam(required = false) List<String> select,   // ✅ column names
-         @RequestParam(required = false) List<Character> groupType,
+         @RequestParam(required = false) List<GroupType> groupType,
          @RequestParam(defaultValue = "0") int page,
          @RequestParam(defaultValue = "20") int size) {
 
@@ -64,11 +65,11 @@ public class LedgerController {
  @GetMapping("/{ledgerId}")
  public ResponseEntity<ApiResponsePattern<Map<String, Object>>> getLedgerById(
          @PathVariable Long ledgerId,
-         @RequestParam(required = false) List<String> select, @RequestParam(required = true) Long companyId) {  // ✅ column names
+         @RequestParam(required = false) List<String> select) {  // ✅ column names
 
      return ResponseEntity.ok(
     		 ApiResponsePattern.success(
-                     ledgerService.getLedgerById(ledgerId, select,companyId)));
+                     ledgerService.getLedgerById(ledgerId, select)));
  }
 
  // ✅ UPDATE

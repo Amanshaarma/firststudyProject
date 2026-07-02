@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.study.Main.Model.Ledger;
+import com.study.Main.enumData.GroupType;
 
-//repository/LedgerRepository.java
+@Repository
 public interface LedgerRepository extends JpaRepository<Ledger, Long> {
 
  // Duplicate check
@@ -31,7 +33,7 @@ public interface LedgerRepository extends JpaRepository<Ledger, Long> {
         "AND g.groupType IN :groupTypes")
  Page<Ledger> findByCompanyIdAndGroupTypes(
          @Param("companyId") Long companyId,
-         @Param("groupTypes") List<Character> groupTypes,
+         @Param("groupTypes") List<GroupType> groupTypes,
          Pageable pageable);
 
  // Get all by group_type only
@@ -39,7 +41,7 @@ public interface LedgerRepository extends JpaRepository<Ledger, Long> {
         "JOIN l.group g " +
         "WHERE g.groupType IN :groupTypes")
  Page<Ledger> findByGroupTypes(
-         @Param("groupTypes") List<Character> groupTypes,
+         @Param("groupTypes") List<GroupType> groupTypes,
          Pageable pageable);
 
  // Selected columns only (summary)
