@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -60,8 +61,7 @@ public class GlobalExceptionHandler {
 	            DataIntegrityViolationException ex) {
 
 	        String message = "Unable to delete this ledger because it is associated with existing transactions." + ex.getMessage();
-
-	        return ResponseEntity.badRequest()
+	        return ResponseEntity.status(HttpStatusCode.valueOf(409))
 	                .body(ApiResponsePattern.failure( message));
 	}
 	// 400 - Invalid JSON body
