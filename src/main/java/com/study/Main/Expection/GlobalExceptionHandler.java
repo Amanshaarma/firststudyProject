@@ -32,6 +32,11 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponsePattern.failure(ex.getMessage()));
 	}
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponsePattern<Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponsePattern.failure(ex.getMessage()));
+    }
+
 	// 400 - Bad Request
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ApiResponsePattern<Object>> handleBadRequestException(BadRequestException ex) {
