@@ -105,10 +105,10 @@ public class VehicleController {
      * DELETE /api/vehicles/{vehicleId}
      * Rejected (409) if any trip references this vehicle.
      */
-//    @DeleteMapping("/{vehicleId}")
-//    public ResponseEntity<Void> deleteVehicle(@PathVariable Long vehicleId) {
-//        log.info("DELETE /api/vehicles/{}", vehicleId);
-//        vehicleService.deleteVehicle(vehicleId);
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/{vehicleId}")
+    public ResponseEntity<Void> deleteVehicle(@PathVariable Long vehicleId) {
+        log.info("DELETE /api/vehicles/{}", vehicleId);
+        vehicleService.deleteVehicle(vehicleId);
+        return ResponseEntity.noContent().build();
+    }
 }

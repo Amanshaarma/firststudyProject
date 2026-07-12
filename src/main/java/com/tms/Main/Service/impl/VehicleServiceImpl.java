@@ -8,6 +8,7 @@ import com.tms.Main.Model.Vehicle;
 import com.tms.Main.Model.Ledger;
 import com.tms.Main.Repository.CompanyRepository;
 import com.tms.Main.Repository.LedgerRepository;
+import com.tms.Main.Repository.TripsRepository;
 import com.tms.Main.Repository.VehicleRepository;
 import com.tms.Main.util.ValidColumns;
 import jakarta.validation.ValidationException;
@@ -45,15 +46,14 @@ public class VehicleServiceImpl {
 
     private LedgerRepository ledgerRepository;
 
-//    @Autowired
-//    private TripRepository tripRepository;
+    private TripsRepository tripRepository;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository,  ValidColumns validColumns,CompanyRepository companyRepository, LedgerRepository ledgerRepository) {
+    public VehicleServiceImpl(VehicleRepository vehicleRepository,TripsRepository tripRepository,  ValidColumns validColumns,CompanyRepository companyRepository, LedgerRepository ledgerRepository) {
         this.vehicleRepository = vehicleRepository;
         this.companyRepository = companyRepository;
         this.ledgerRepository = ledgerRepository;
         this.validColumns =  validColumns;
-//        this.tripRepository = tripRepository;
+        this.tripRepository = tripRepository;
     }
 
     // =========================================================================
@@ -155,24 +155,24 @@ public class VehicleServiceImpl {
     // =========================================================================
     // DELETE - only if no trips reference this vehicle
     // =========================================================================
-//    @Transactional
-//    public void deleteVehicle(Long vehicleId) {
-//        log.info("Deleting vehicle: vehicleId={}", vehicleId);
-//
-//        Vehicle vehicle = findVehicleOrThrow(vehicleId);
-//
-//        long tripCount = tripRepository.countByVehicleId(vehicleId);
-//        if (tripCount > 0) {
-//            throw new ConstraintViolationException(
-//                    "Cannot delete vehicle: " + tripCount + " trip(s) reference this vehicle" +
-//                            "VEHICLE_HAS_DEPENDENT_TRIPS" +
-//                            "trips", "409"
-//            );
-//        }
-//
-//        vehicleRepository.delete(vehicle);
-//        log.info("Vehicle deleted: vehicleId={}", vehicleId);
-//    }
+    @Transactional
+    public void deleteVehicle(Long vehicleId) {
+        log.info("Deleting vehicle: vehicleId={}", vehicleId);
+
+        Vehicle vehicle = findVehicleOrThrow(vehicleId);
+
+        long tripCount = tripRepository.countByVehicleVehicleId(vehicleId);
+        if (tripCount > 0) {
+            throw new ConstraintViolationException(
+                    "Cannot delete vehicle: " + tripCount + " trip(s) reference this vehicle" +
+                            "VEHICLE_HAS_DEPENDENT_TRIPS" +
+                            "trips", "409"
+            );
+        }
+
+        vehicleRepository.delete(vehicle);
+        log.info("Vehicle deleted: vehicleId={}", vehicleId);
+    }
 
     // =========================================================================
     // HELPERS
