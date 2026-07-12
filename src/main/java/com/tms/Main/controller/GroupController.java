@@ -40,8 +40,8 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupId}")
-	public ResponseEntity<ApiResponsePattern<GroupResponseDTO>> getGroupById(@PathVariable Long groupId,@RequestParam(required = false) List<String> select) {
-		return ResponseEntity.ok(ApiResponsePattern.success(groupService.getGroupById(groupId)));
+	public ResponseEntity<ApiResponsePattern<Map<String, Object>>> getGroupById(@PathVariable Long groupId,@RequestParam(required = false) List<String> select) {
+		return ResponseEntity.ok(ApiResponsePattern.success(groupService.getGroupById(groupId,select)));
 	}
 
 	@GetMapping
@@ -75,7 +75,7 @@ public class GroupController {
 	@DeleteMapping("/{groupId}")
 	public ResponseEntity<ApiResponsePattern<String>> deleteGroup(@PathVariable Long groupId) {
 		groupService.deleteGroup(groupId);
-		return ResponseEntity.ok(ApiResponsePattern.success("Group deleted successfully"));
+		return ResponseEntity.ok(ApiResponsePattern.success(null,"Group deleted successfully"));
 	}
 
 }

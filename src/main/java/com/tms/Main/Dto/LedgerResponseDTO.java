@@ -1,104 +1,89 @@
-package com.study.Main.Model;
+package com.study.Main.Dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "ledgers", indexes = { @Index(name = "idx_ledger_company_id", columnList = "company_id"),
-		@Index(name = "idx_ledger_group_id", columnList = "group_id"),
-		@Index(name = "idx_ledger_name", columnList = "ledger_name") })
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ledger {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ledger_id")
+public class LedgerResponseDTO {
 	private Long ledgerId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "company_id", nullable = false)
-	private CompanyProfiles companyProfile;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group_id", nullable = false)
-	private Group group;
-
-	@Column(name = "ledger_name", nullable = false)
+	private Long companyId;
+	private Long groupId;
 	private String ledgerName;
-
-	@Column(name = "opening_balance", nullable = false)
-	private BigDecimal openingBalance = BigDecimal.ZERO;
-
-	@Column(name = "is_bill_by_bill", nullable = false)
-	private Boolean isBillByBill = false;
-
-	@Column(name = "mailing_name")
+	private BigDecimal openingBalance;
+	private Boolean isBillByBill;
 	private String mailingName;
-
-	@Column(name = "address")
 	private String address;
-
-	@Column(name = "mobile_no")
 	private String mobileNo;
-
-	@Column(name = "email_id")
 	private String emailId;
-
-	@Column(name = "gst_no")
 	private String gstNo;
-
-	@Column(name = "pan_no")
 	private String panNo;
-
-	@Column(name = "bank_ac_no")
 	private String bankAcNo;
-
-	@Column(name = "ifsc_code")
 	private String ifscCode;
-
-	@Column(name = "bank_name")
 	private String bankName;
-
-	@Column(name = "bank_ac_holder_name")
 	private String bankAcHolderName;
-
-	@Column(name = "branch_name")
 	private String branchName;
-
-	@Column(name = "created_at", updatable = false)
 	private LocalDateTime createdAt;
-
-	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+    private String addressLine1;
+    private String addressLine2;
+    private String state;
+    private String country;
+    private String pinCode;
 
-	@PrePersist
-	protected void onCreate() {
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
-	}
+    public Boolean getBillByBill() {
+        return isBillByBill;
+    }
 
-	@PreUpdate
-	protected void onUpdate() {
-		this.updatedAt = LocalDateTime.now();
-	}
+    public void setBillByBill(Boolean billByBill) {
+        isBillByBill = billByBill;
+    }
 
-	public Long getLedgerId() {
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
+
+
+    public Long getLedgerId() {
 		return ledgerId;
 	}
 
@@ -106,20 +91,20 @@ public class Ledger {
 		this.ledgerId = ledgerId;
 	}
 
-	public CompanyProfiles getCompanyProfile() {
-		return companyProfile;
+	public Long getCompanyId() {
+		return companyId;
 	}
 
-	public void setCompanyProfile(CompanyProfiles companyProfile) {
-		this.companyProfile = companyProfile;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
-	public Group getGroup() {
-		return group;
+	public Long getGroupId() {
+		return groupId;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getLedgerName() {
@@ -249,5 +234,5 @@ public class Ledger {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+
 }

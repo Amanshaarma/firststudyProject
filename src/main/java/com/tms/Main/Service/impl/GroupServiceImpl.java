@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.study.Main.util.ValidColumns;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,15 +36,17 @@ public class GroupServiceImpl implements GroupService {
 	private final CompanyRepository companyProfileRepository;
 	private final GroupMapper groupMapper;
 	private final GlobalGroupRepository globalGroupRepository;
+    private final ValidColumns validColumns;
 
 	// D - Constructor injection
 	public GroupServiceImpl(GroupRepository groupRepository, CompanyRepository companyProfileRepository,
-			GroupMapper groupMapper, GlobalGroupRepository globalGroupRepository) {
+                            GroupMapper groupMapper, GlobalGroupRepository globalGroupRepository, ValidColumns validColumns) {
 		this.groupRepository = groupRepository;
 		this.companyProfileRepository = companyProfileRepository;
 		this.groupMapper = groupMapper;
 		this.globalGroupRepository = globalGroupRepository;
-	}
+        this.validColumns = validColumns;
+    }
 
 	@Override
 	@Transactional
@@ -92,9 +95,12 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public GroupResponseDTO getGroupById(Long groupId) {
-		return groupMapper.toDTO(groupRepository.findById(groupId)
+	public Map<String, Object> getGroupById(Long groupId,List<String> select) {
+		GroupResponseDTO groupDto = groupMapper.toDTO(groupRepository.findById(groupId)
 				.orElseThrow(() -> new ResourceNotFoundException("Group not found with id: " + groupId)));
+        Set<String> fields = validColumns.resolveFields(select, "LEDGER_COLUMNS");
+
+        return groupMapper.toProjectedMap(groupDto, fields);
 	}
 
 	@Override
@@ -104,28 +110,12 @@ public class GroupServiceImpl implements GroupService {
 		Page<Group> groupPage = (companyId != null) ? groupRepository.findByCompanyProfileCompanyId(companyId, pageable)
 				: groupRepository.findAll(pageable);
 
-		Set<String> fields = resolveFields(select);
+		Set<String> fields = validColumns.resolveFields(select,"GROUP_COLUMNS");
 
 		return groupMapper.toDTOPageProjected(groupPage, fields); // ✅ single call
 	}
 
-	private Set<String> resolveFields(List<String> select) {
-		if (select == null || select.isEmpty())
-			return Set.of(); // empty = all fields
 
-		Set<String> allowed = Set.of("groupId", "groupName", "groupType", "companyId", "parentGroupId", "globalGroupId",
-				"createdAt", "updatedAt");
-
-		Set<String> requested = select.stream().map(s -> Character.toLowerCase(s.charAt(0)) + s.substring(1)) // GroupName
-																												// →
-																												// groupName
-				.filter(allowed::contains).collect(Collectors.toCollection(LinkedHashSet::new));
-
-		if (requested.isEmpty())
-			throw new IllegalArgumentException("No valid fields in 'select'. Allowed: " + allowed);
-
-		return requested;
-	}
 
 	@Override
 	public Page<GroupResponseDTO> getGroupsByType(String groupType, int page, int size) {

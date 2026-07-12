@@ -1,20 +1,27 @@
 package com.study.Main.Dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class LedgerResponseDTO {
-	private Long ledgerId;
+public class LedgerRequestDTO {
+
+	@NotNull(message = "Company ID is required")
 	private Long companyId;
+
+	@NotNull(message = "Group ID is required")
 	private Long groupId;
+
+	@NotBlank(message = "Ledger name is required")
 	private String ledgerName;
-	private BigDecimal openingBalance;
-	private Boolean isBillByBill;
+
+	private BigDecimal openingBalance = BigDecimal.ZERO;
+	private Boolean isBillByBill = false;
 	private String mailingName;
 	private String address;
 	private String mobileNo;
@@ -26,18 +33,61 @@ public class LedgerResponseDTO {
 	private String bankName;
 	private String bankAcHolderName;
 	private String branchName;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+    private String addressLine1;
+    private String addressLine2;
+    private String state;
+    private String country;
+    private String pinCode;
 
-	public Long getLedgerId() {
-		return ledgerId;
-	}
+    public Boolean getBillByBill() {
+        return isBillByBill;
+    }
 
-	public void setLedgerId(Long ledgerId) {
-		this.ledgerId = ledgerId;
-	}
+    public void setBillByBill(Boolean billByBill) {
+        isBillByBill = billByBill;
+    }
 
-	public Long getCompanyId() {
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
+
+    public Long getCompanyId() {
 		return companyId;
 	}
 
@@ -163,22 +213,6 @@ public class LedgerResponseDTO {
 
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 }

@@ -11,7 +11,7 @@ import com.study.Main.Dto.GroupResponseDTO;
 public interface GroupService {
 	GroupResponseDTO addGroup(GroupRequestDTO request);
 
-	GroupResponseDTO getGroupById(Long groupId);
+    Map<String, Object> getGroupById(Long groupId,List<String> select);
 
 	Page<Map<String, Object>> getGroups(Long companyId, List<String> select, int page, int size);
 

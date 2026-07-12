@@ -2,7 +2,9 @@ package com.study.Main.Service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.study.Main.util.ValidColumns;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +15,6 @@ import com.study.Main.enumData.GroupType;
 import com.study.Main.Dto.LedgerRequestDTO;
 import com.study.Main.Dto.LedgerResponseDTO;
 import com.study.Main.Expection.BadRequestException;
-import com.study.Main.Expection.CompanyNofFound;
 import com.study.Main.Expection.DuplicateResourceException;
 import com.study.Main.Expection.ResourceNotFoundException;
 import com.study.Main.Mapper.LedgerMapper;
@@ -24,7 +25,6 @@ import com.study.Main.Repository.CompanyRepository;
 import com.study.Main.Repository.GroupRepository;
 import com.study.Main.Repository.LedgerRepository;
 import com.study.Main.Service.LedgerService;
-import com.study.Main.util.ColumnFilterUtil;
 
 import jakarta.transaction.Transactional;
 
@@ -36,16 +36,16 @@ public class LedgerServiceImpl implements LedgerService {
 	private final CompanyRepository companyProfileRepository;
 	private final GroupRepository groupRepository;
 	private final LedgerMapper ledgerMapper;
-	private final ColumnFilterUtil columnFilterUtil; // ✅ inject filter util
+    private  final ValidColumns validColumns;
 
 	public LedgerServiceImpl(LedgerRepository ledgerRepository, CompanyRepository companyProfileRepository,
-			GroupRepository groupRepository, LedgerMapper ledgerMapper, ColumnFilterUtil columnFilterUtil) {
+                             GroupRepository groupRepository, LedgerMapper ledgerMapper, ValidColumns validColumns) {
 		this.ledgerRepository = ledgerRepository;
 		this.companyProfileRepository = companyProfileRepository;
 		this.groupRepository = groupRepository;
 		this.ledgerMapper = ledgerMapper;
-		this.columnFilterUtil = columnFilterUtil;
-	}
+        this.validColumns = validColumns;
+    }
 
 	// ✅ GET by ID
 	@Override
@@ -56,40 +56,47 @@ public class LedgerServiceImpl implements LedgerService {
 
 		LedgerResponseDTO dto = ledgerMapper.toDTO(ledger);
 
-		// Filter columns based on select param
-		return columnFilterUtil.filterColumns(dto, select);
+        Set<String> fields = validColumns.resolveFields(select, "LEDGER_COLUMNS");
+
+        return ledgerMapper.toProjectedMap(dto, fields);
 	}
 
 	// ✅ GET All
-	@Override
-	public Page<Map<String, Object>> getAllLedgers(Long companyId, List<String> select, List<GroupType> groupTypes,
-			int page, int size) {
+    @Override
+    public Page<Map<String, Object>> getAllLedgers(Long companyId,
+                                                   List<String> select,
+                                                   List<GroupType> groupTypes,
+                                                   int page,
+                                                   int size) {
 
-		Pageable pageable = PageRequest.of(page, size, Sort.by("ledgerName").ascending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("ledgerName").ascending());
 
-		Page<Ledger> ledgers;
+        Page<Ledger> ledgerPage;
 
-		// Case 1 — company + groupType
-		if (companyId != null && groupTypes != null && !groupTypes.isEmpty()) {
-			ledgers = ledgerRepository.findByCompanyIdAndGroupTypes(companyId, groupTypes, pageable);
-		}
-		// Case 2 — groupType only
-		else if (groupTypes != null && !groupTypes.isEmpty()) {
-			ledgers = ledgerRepository.findByGroupTypes(groupTypes, pageable);
-		}
-		// Case 3 — company only
-		else if (companyId != null) {
-			ledgers = ledgerRepository.findByCompanyProfileCompanyId(companyId, pageable);
-		}
-		// Case 4 — No params
-		else {
-			ledgers = ledgerRepository.findAll(pageable);
-		}
+        // Case 1 - Company + Group Types
+        if (companyId != null && groupTypes != null && !groupTypes.isEmpty()) {
+            ledgerPage = ledgerRepository.findByCompanyIdAndGroupTypes(
+                    companyId, groupTypes, pageable);
+        }
+        // Case 2 - Group Types only
+        else if (groupTypes != null && !groupTypes.isEmpty()) {
+            ledgerPage = ledgerRepository.findByGroupTypes(
+                    groupTypes, pageable);
+        }
+        // Case 3 - Company only
+        else if (companyId != null) {
+            ledgerPage = ledgerRepository.findByCompanyProfileCompanyId(
+                    companyId, pageable);
+        }
+        // Case 4 - All Ledgers
+        else {
+            ledgerPage = ledgerRepository.findAll(pageable);
+        }
 
-		// Map to DTO then filter columns
-		Page<LedgerResponseDTO> dtoPage = ledgers.map(ledgerMapper::toDTO);
-		return columnFilterUtil.filterColumnsPage(dtoPage, select);
-	}
+        Set<String> fields = validColumns.resolveFields(select, "LEDGER_COLUMNS");
+
+        return ledgerMapper.toDTOPageProjected(ledgerPage, fields);
+    }
 
 //✅ POST
 	@Override
