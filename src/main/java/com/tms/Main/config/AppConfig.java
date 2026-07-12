@@ -1,4 +1,4 @@
-package com.study.Main.config;
+package com.tms.Main.config;
 
 
 import org.springframework.context.annotation.Bean;

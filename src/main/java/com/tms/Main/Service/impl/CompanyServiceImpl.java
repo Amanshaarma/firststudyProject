@@ -1,19 +1,19 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.study.Main.Dto.CompanyRequestDTO;
-import com.study.Main.Dto.CompanyResponseDTO;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Expection.ResourceNotFoundException;
-import com.study.Main.Mapper.CompanyMapper;
-import com.study.Main.Model.CompanyProfiles;
-import com.study.Main.Model.User;
-import com.study.Main.Repository.CompanyRepository;
-import com.study.Main.Repository.UserRepository;
-import com.study.Main.Service.CompanyService;
+import com.tms.Main.Dto.CompanyRequestDTO;
+import com.tms.Main.Dto.CompanyResponseDTO;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Expection.ResourceNotFoundException;
+import com.tms.Main.Mapper.CompanyMapper;
+import com.tms.Main.Model.CompanyProfiles;
+import com.tms.Main.Model.User;
+import com.tms.Main.Repository.CompanyRepository;
+import com.tms.Main.Repository.UserRepository;
+import com.tms.Main.Service.CompanyService;
 
 import jakarta.transaction.Transactional;
 

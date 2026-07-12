@@ -1,4 +1,4 @@
-package com.study.Main.Repository;
+package com.tms.Main.Repository;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.study.Main.Model.Ledger;
-import com.study.Main.enumData.GroupType;
+import com.tms.Main.Model.Ledger;
+import com.tms.Main.enumData.GroupType;
 
 @Repository
 public interface LedgerRepository extends JpaRepository<Ledger, Long> {

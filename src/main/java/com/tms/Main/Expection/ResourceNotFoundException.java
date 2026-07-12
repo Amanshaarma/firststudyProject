@@ -1,4 +1,4 @@
-package com.study.Main.Expection;
+package com.tms.Main.Expection;
 
 public class ResourceNotFoundException extends RuntimeException {
 	public ResourceNotFoundException(String message) {

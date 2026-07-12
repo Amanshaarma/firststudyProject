@@ -1,4 +1,4 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.study.Main.Dto.UserRequestDTO;
-import com.study.Main.Dto.UserResponseDTO;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Expection.ResourceNotFoundException;
-import com.study.Main.Mapper.UserMapper;
-import com.study.Main.Model.User;
-import com.study.Main.Repository.UserRepository;
-import com.study.Main.Service.UserService;
+import com.tms.Main.Dto.UserRequestDTO;
+import com.tms.Main.Dto.UserResponseDTO;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Expection.ResourceNotFoundException;
+import com.tms.Main.Mapper.UserMapper;
+import com.tms.Main.Model.User;
+import com.tms.Main.Repository.UserRepository;
+import com.tms.Main.Service.UserService;
 
 import jakarta.transaction.Transactional;
 

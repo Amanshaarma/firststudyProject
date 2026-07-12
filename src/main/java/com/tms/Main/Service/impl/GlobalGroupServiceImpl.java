@@ -1,4 +1,4 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -6,14 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.study.Main.Dto.GlobalGroupRequestDTO;
-import com.study.Main.Dto.GlobalGroupResponseDTO;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Expection.ResourceNotFoundException;
-import com.study.Main.Mapper.GlobalGroupMapper;
-import com.study.Main.Model.GlobalGroup;
-import com.study.Main.Repository.GlobalGroupRepository;
-import com.study.Main.Service.GlobalGroupService;
+import com.tms.Main.Dto.GlobalGroupRequestDTO;
+import com.tms.Main.Dto.GlobalGroupResponseDTO;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Expection.ResourceNotFoundException;
+import com.tms.Main.Mapper.GlobalGroupMapper;
+import com.tms.Main.Model.GlobalGroup;
+import com.tms.Main.Repository.GlobalGroupRepository;
+import com.tms.Main.Service.GlobalGroupService;
 
 import jakarta.transaction.Transactional;
 

@@ -1,6 +1,6 @@
-package com.study.Main.Dto;
+package com.tms.Main.Dto;
 
-import com.study.Main.enumData.GroupType;
+import com.tms.Main.enumData.GroupType;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

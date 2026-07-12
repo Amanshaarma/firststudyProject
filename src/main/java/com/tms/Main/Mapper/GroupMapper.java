@@ -1,4 +1,4 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -9,9 +9,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.GroupRequestDTO;
-import com.study.Main.Dto.GroupResponseDTO;
-import com.study.Main.Model.Group;
+import com.tms.Main.Dto.GroupRequestDTO;
+import com.tms.Main.Dto.GroupResponseDTO;
+import com.tms.Main.Model.Group;
 
 
 @Mapper(componentModel = "spring")

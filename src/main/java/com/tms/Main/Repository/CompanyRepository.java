@@ -1,11 +1,11 @@
-package com.study.Main.Repository;
+package com.tms.Main.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.study.Main.Model.CompanyProfiles;
+import com.tms.Main.Model.CompanyProfiles;
 
 public interface CompanyRepository  extends JpaRepository<CompanyProfiles, Long> {
 

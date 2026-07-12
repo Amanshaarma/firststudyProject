@@ -1,31 +1,29 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.study.Main.util.ValidColumns;
+import com.tms.Main.util.ValidColumns;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.study.Main.Dto.GroupRequestDTO;
-import com.study.Main.Dto.GroupResponseDTO;
-import com.study.Main.Expection.BusinessRuleViolationException;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Expection.ResourceNotFoundException;
-import com.study.Main.Mapper.GroupMapper;
-import com.study.Main.Model.CompanyProfiles;
-import com.study.Main.Model.GlobalGroup;
-import com.study.Main.Model.Group;
-import com.study.Main.Repository.CompanyRepository;
-import com.study.Main.Repository.GlobalGroupRepository;
-import com.study.Main.Repository.GroupRepository;
-import com.study.Main.Service.GroupService;
+import com.tms.Main.Dto.GroupRequestDTO;
+import com.tms.Main.Dto.GroupResponseDTO;
+import com.tms.Main.Expection.BusinessRuleViolationException;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Expection.ResourceNotFoundException;
+import com.tms.Main.Mapper.GroupMapper;
+import com.tms.Main.Model.CompanyProfiles;
+import com.tms.Main.Model.GlobalGroup;
+import com.tms.Main.Model.Group;
+import com.tms.Main.Repository.CompanyRepository;
+import com.tms.Main.Repository.GlobalGroupRepository;
+import com.tms.Main.Repository.GroupRepository;
+import com.tms.Main.Service.GroupService;
 
 import jakarta.transaction.Transactional;
 

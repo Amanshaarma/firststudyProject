@@ -1,4 +1,4 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.GlobalGroupRequestDTO;
-import com.study.Main.Dto.GlobalGroupResponseDTO;
-import com.study.Main.Model.GlobalGroup;
+import com.tms.Main.Dto.GlobalGroupRequestDTO;
+import com.tms.Main.Dto.GlobalGroupResponseDTO;
+import com.tms.Main.Model.GlobalGroup;
 
 @Mapper(componentModel = "spring")
 public interface GlobalGroupMapper {

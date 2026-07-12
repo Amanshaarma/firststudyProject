@@ -1,11 +1,11 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import com.study.Main.Dto.CityDTO;
-import com.study.Main.Model.IndianCities;
+import com.tms.Main.Dto.CityDTO;
+import com.tms.Main.Model.IndianCities;
 
 //CityMapper.java
 @Mapper(componentModel = "spring")

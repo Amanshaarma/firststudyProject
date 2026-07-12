@@ -1,30 +1,30 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.study.Main.util.ValidColumns;
+import com.tms.Main.util.ValidColumns;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.study.Main.enumData.GroupType;
-import com.study.Main.Dto.LedgerRequestDTO;
-import com.study.Main.Dto.LedgerResponseDTO;
-import com.study.Main.Expection.BadRequestException;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Expection.ResourceNotFoundException;
-import com.study.Main.Mapper.LedgerMapper;
-import com.study.Main.Model.CompanyProfiles;
-import com.study.Main.Model.Group;
-import com.study.Main.Model.Ledger;
-import com.study.Main.Repository.CompanyRepository;
-import com.study.Main.Repository.GroupRepository;
-import com.study.Main.Repository.LedgerRepository;
-import com.study.Main.Service.LedgerService;
+import com.tms.Main.enumData.GroupType;
+import com.tms.Main.Dto.LedgerRequestDTO;
+import com.tms.Main.Dto.LedgerResponseDTO;
+import com.tms.Main.Expection.BadRequestException;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Expection.ResourceNotFoundException;
+import com.tms.Main.Mapper.LedgerMapper;
+import com.tms.Main.Model.CompanyProfiles;
+import com.tms.Main.Model.Group;
+import com.tms.Main.Model.Ledger;
+import com.tms.Main.Repository.CompanyRepository;
+import com.tms.Main.Repository.GroupRepository;
+import com.tms.Main.Repository.LedgerRepository;
+import com.tms.Main.Service.LedgerService;
 
 import jakarta.transaction.Transactional;
 

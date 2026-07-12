@@ -1,13 +1,13 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.LedgerRequestDTO;
-import com.study.Main.Dto.LedgerResponseDTO;
-import com.study.Main.enumData.GroupType;
+import com.tms.Main.Dto.LedgerRequestDTO;
+import com.tms.Main.Dto.LedgerResponseDTO;
+import com.tms.Main.enumData.GroupType;
 
 //service/LedgerService.java
 public interface LedgerService {

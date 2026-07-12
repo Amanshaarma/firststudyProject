@@ -1,8 +1,9 @@
-package com.study.Main.Expection;
+package com.tms.Main.Expection;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import jakarta.validation.ValidationException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.study.Main.response.ApiResponsePattern;
+import com.tms.Main.response.ApiResponsePattern;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 //exception/GlobalExceptionHandler.java
@@ -62,14 +64,20 @@ public class GlobalExceptionHandler {
                 .body(ApiResponsePattern.failure("Validation failed", errors));
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ApiResponsePattern> handleValidation(ValidationException ex) {
+        return ResponseEntity.status(HttpStatus.valueOf(409)).body(ApiResponsePattern.failure("Validation fails at "+ex.getMessage()));
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiResponsePattern<Object>> handleDataIntegrityViolation(
             DataIntegrityViolationException ex) {
 
         String message = "Unable to delete this ledger because it is associated with existing transactions." + ex.getMessage();
         return ResponseEntity.status(HttpStatusCode.valueOf(409))
-                .body(ApiResponsePattern.failure( message));
+                .body(ApiResponsePattern.failure(message));
     }
+
     // 400 - Invalid JSON body
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponsePattern<Object>> handleHttpMessageNotReadableException(
@@ -85,14 +93,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body(ApiResponsePattern.failure("HTTP method not supported: " + ex.getMethod()));
     }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponsePattern> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex) {
 
         return ResponseEntity.badRequest().body(
-                ApiResponsePattern.failure( "Invalid "+ex.getName()+" value.")
+                ApiResponsePattern.failure("Invalid " + ex.getName() + " value.")
         );
     }
+
     // 500 - Any unhandled exception
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponsePattern<Object>> handleGlobalException(Exception ex) {

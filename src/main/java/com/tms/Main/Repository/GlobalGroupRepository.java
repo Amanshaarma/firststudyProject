@@ -1,10 +1,10 @@
-package com.study.Main.Repository;
+package com.tms.Main.Repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.study.Main.Model.GlobalGroup;
+import com.tms.Main.Model.GlobalGroup;
 
 public interface GlobalGroupRepository extends JpaRepository<GlobalGroup, Long> {
 

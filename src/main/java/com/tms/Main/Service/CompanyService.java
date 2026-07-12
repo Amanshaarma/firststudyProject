@@ -1,9 +1,9 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import java.util.List;
 
-import com.study.Main.Dto.CompanyRequestDTO;
-import com.study.Main.Dto.CompanyResponseDTO;
+import com.tms.Main.Dto.CompanyRequestDTO;
+import com.tms.Main.Dto.CompanyResponseDTO;
 
 public interface CompanyService {
 	CompanyResponseDTO addCompany(CompanyRequestDTO request);

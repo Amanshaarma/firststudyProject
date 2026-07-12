@@ -1,4 +1,4 @@
-package com.study.Main.Expection;
+package com.tms.Main.Expection;
 
 public class CompanyNofFound extends RuntimeException {
 	public CompanyNofFound(String message) {

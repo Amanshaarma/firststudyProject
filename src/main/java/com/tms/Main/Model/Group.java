@@ -1,11 +1,11 @@
-package com.study.Main.Model;
+package com.tms.Main.Model;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
-import com.study.Main.enumData.GroupType;
+import com.tms.Main.enumData.GroupType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

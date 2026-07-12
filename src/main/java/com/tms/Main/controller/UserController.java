@@ -1,4 +1,4 @@
-package com.study.Main.controller;
+package com.tms.Main.controller;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.Main.Dto.UserRequestDTO;
-import com.study.Main.Dto.UserResponseDTO;
-import com.study.Main.Service.UserService;
-import com.study.Main.response.ApiResponsePattern;
+import com.tms.Main.Dto.UserRequestDTO;
+import com.tms.Main.Dto.UserResponseDTO;
+import com.tms.Main.Service.UserService;
+import com.tms.Main.response.ApiResponsePattern;
 
 import jakarta.validation.Valid;
 

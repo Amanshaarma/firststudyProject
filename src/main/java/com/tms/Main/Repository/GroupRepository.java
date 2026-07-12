@@ -1,4 +1,4 @@
-package com.study.Main.Repository;
+package com.tms.Main.Repository;
 
 import org.springframework.data.domain.Pageable;
 
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.study.Main.Model.Group;
+import com.tms.Main.Model.Group;
 
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {

@@ -1,4 +1,4 @@
-package com.study.Main.Dto;
+package com.tms.Main.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

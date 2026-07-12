@@ -1,19 +1,17 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.study.Main.Dto.GroupResponseDTO;
-import com.study.Main.Model.Group;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.LedgerRequestDTO;
-import com.study.Main.Dto.LedgerResponseDTO;
-import com.study.Main.Model.Ledger;
+import com.tms.Main.Dto.LedgerRequestDTO;
+import com.tms.Main.Dto.LedgerResponseDTO;
+import com.tms.Main.Model.Ledger;
 
 @Mapper(componentModel = "spring")
 public interface LedgerMapper {

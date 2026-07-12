@@ -1,4 +1,4 @@
-package com.study.Main.config;
+package com.tms.Main.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;

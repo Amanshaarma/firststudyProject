@@ -1,4 +1,4 @@
-package com.study.Main.controller;
+package com.tms.Main.controller;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.Main.Dto.CityDTO;
-import com.study.Main.Model.IndianCities;
-import com.study.Main.Service.IIndianCities;
-import com.study.Main.response.ApiResponsePattern;
+import com.tms.Main.Dto.CityDTO;
+import com.tms.Main.Model.IndianCities;
+import com.tms.Main.Service.IIndianCities;
+import com.tms.Main.response.ApiResponsePattern;
 
 import jakarta.validation.Valid;
 

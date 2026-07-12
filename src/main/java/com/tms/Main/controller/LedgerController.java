@@ -1,4 +1,4 @@
-package com.study.Main.controller;
+package com.tms.Main.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.Main.Dto.LedgerRequestDTO;
-import com.study.Main.Dto.LedgerResponseDTO;
-import com.study.Main.Service.LedgerService;
-import com.study.Main.enumData.GroupType;
-import com.study.Main.response.ApiResponsePattern;
+import com.tms.Main.Dto.LedgerRequestDTO;
+import com.tms.Main.Dto.LedgerResponseDTO;
+import com.tms.Main.Service.LedgerService;
+import com.tms.Main.enumData.GroupType;
+import com.tms.Main.response.ApiResponsePattern;
 
 import jakarta.validation.Valid;
 

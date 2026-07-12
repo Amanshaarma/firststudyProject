@@ -1,4 +1,4 @@
-package com.study.Main.util;
+package com.tms.Main.util;
 
 import org.springframework.stereotype.Component;
 
@@ -36,7 +36,10 @@ public final class ValidColumns {
             "createdAt",
             "updatedAt"
     );
-
+    private static final Set<String> VEHICLE_COLUMNS = Set.of(
+            "vehicleId", "companyId", "vehicleNo", "vehicleType",
+            "ownerLedgerId", "createdAt", "updatedAt"
+    );
     // Group Entity
     public static final Set<String> GROUP_COLUMNS = Set.of(
             "groupId",
@@ -71,6 +74,9 @@ public final class ValidColumns {
                 break;
             case "GROUP_COLUMNS":
                 allowed = GROUP_COLUMNS;
+                break;
+            case  "VEHICLE_COLUMNS":
+                allowed = VEHICLE_COLUMNS;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid columns name: " + columns);

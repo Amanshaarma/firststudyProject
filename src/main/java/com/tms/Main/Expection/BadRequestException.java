@@ -1,4 +1,4 @@
-package com.study.Main.Expection;
+package com.tms.Main.Expection;
 
 public class BadRequestException extends RuntimeException {
 

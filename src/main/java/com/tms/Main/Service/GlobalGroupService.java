@@ -1,9 +1,9 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.GlobalGroupRequestDTO;
-import com.study.Main.Dto.GlobalGroupResponseDTO;
+import com.tms.Main.Dto.GlobalGroupRequestDTO;
+import com.tms.Main.Dto.GlobalGroupResponseDTO;
 
 //service/GlobalGroupService.java
 public interface GlobalGroupService {

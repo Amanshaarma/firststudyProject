@@ -1,4 +1,4 @@
-package com.study.Main.controller;
+package com.tms.Main.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.study.Main.Dto.GlobalGroupRequestDTO;
-import com.study.Main.Dto.GlobalGroupResponseDTO;
-import com.study.Main.Service.GlobalGroupService;
-import com.study.Main.response.ApiResponsePattern;
+import com.tms.Main.Dto.GlobalGroupRequestDTO;
+import com.tms.Main.Dto.GlobalGroupResponseDTO;
+import com.tms.Main.Service.GlobalGroupService;
+import com.tms.Main.response.ApiResponsePattern;
 
 import jakarta.validation.Valid;
 

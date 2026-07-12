@@ -1,9 +1,9 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import java.util.List;
 
-import com.study.Main.Dto.CityDTO;
-import com.study.Main.Model.IndianCities;
+import com.tms.Main.Dto.CityDTO;
+import com.tms.Main.Model.IndianCities;
 
 public interface IIndianCities 
 {

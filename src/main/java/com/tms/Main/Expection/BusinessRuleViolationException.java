@@ -1,4 +1,4 @@
-package com.study.Main.Expection;
+package com.tms.Main.Expection;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

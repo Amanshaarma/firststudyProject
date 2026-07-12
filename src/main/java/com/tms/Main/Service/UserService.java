@@ -1,9 +1,9 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import java.util.List;
 
-import com.study.Main.Dto.UserRequestDTO;
-import com.study.Main.Dto.UserResponseDTO;
+import com.tms.Main.Dto.UserRequestDTO;
+import com.tms.Main.Dto.UserResponseDTO;
 
 //service/UserService.java
 public interface UserService {

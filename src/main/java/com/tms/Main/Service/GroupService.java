@@ -1,12 +1,12 @@
-package com.study.Main.Service;
+package com.tms.Main.Service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.study.Main.Dto.GroupRequestDTO;
-import com.study.Main.Dto.GroupResponseDTO;
+import com.tms.Main.Dto.GroupRequestDTO;
+import com.tms.Main.Dto.GroupResponseDTO;
 
 public interface GroupService {
 	GroupResponseDTO addGroup(GroupRequestDTO request);

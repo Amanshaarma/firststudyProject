@@ -1,13 +1,13 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.study.Main.Dto.CompanyRequestDTO;
-import com.study.Main.Dto.CompanyResponseDTO;
-import com.study.Main.Model.CompanyProfiles;
+import com.tms.Main.Dto.CompanyRequestDTO;
+import com.tms.Main.Dto.CompanyResponseDTO;
+import com.tms.Main.Model.CompanyProfiles;
 
 //mapper/CompanyMapper.java
 //S - only responsible for mapping

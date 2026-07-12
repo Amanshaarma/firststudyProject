@@ -1,4 +1,4 @@
-package com.study.Main.response;
+package com.tms.Main.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

@@ -1,4 +1,4 @@
-package com.study.Main.Model;
+package com.tms.Main.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

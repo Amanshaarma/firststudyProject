@@ -1,13 +1,13 @@
-package com.study.Main.Mapper;
+package com.tms.Main.Mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.study.Main.Dto.UserRequestDTO;
-import com.study.Main.Dto.UserResponseDTO;
-import com.study.Main.Model.User;
+import com.tms.Main.Dto.UserRequestDTO;
+import com.tms.Main.Dto.UserResponseDTO;
+import com.tms.Main.Model.User;
 
 //mapper/UserMapper.java
 @Mapper(componentModel = "spring")

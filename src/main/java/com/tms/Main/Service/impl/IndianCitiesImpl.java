@@ -1,4 +1,4 @@
-package com.study.Main.Service.impl;
+package com.tms.Main.Service.impl;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.study.Main.Dto.CityDTO;
-import com.study.Main.Expection.DuplicateResourceException;
-import com.study.Main.Mapper.CityMapper;
-import com.study.Main.Model.IndianCities;
-import com.study.Main.Repository.indianCitiesRepository;
-import com.study.Main.Service.IIndianCities;
+import com.tms.Main.Dto.CityDTO;
+import com.tms.Main.Expection.DuplicateResourceException;
+import com.tms.Main.Mapper.CityMapper;
+import com.tms.Main.Model.IndianCities;
+import com.tms.Main.Repository.indianCitiesRepository;
+import com.tms.Main.Service.IIndianCities;
 
 import jakarta.transaction.Transactional;
 
