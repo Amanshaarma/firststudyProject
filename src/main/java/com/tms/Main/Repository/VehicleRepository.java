@@ -14,7 +14,7 @@ import java.util.Optional;
 // VEHICLE REPOSITORY
 // =============================================================================
 @Repository
-public interface VehicleRepository extends JpaRepository<Vehicle, Long>, VehicleRepositoryCustom {
+public interface VehicleRepository extends JpaRepository<Vehicle, Long>{
 
     // POST/PUT duplicate check - case-insensitive, scoped to company
     @Query("SELECT v FROM Vehicle v WHERE v.companyId = :companyId AND LOWER(v.vehicleNo) = LOWER(:vehicleNo)")

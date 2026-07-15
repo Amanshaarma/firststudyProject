@@ -113,6 +113,7 @@ import java.util.stream.Collectors;
         Map<String, Object> full = objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {});
 
         if (resolvedColumns == null || resolvedColumns.isEmpty()) {
+            full.remove("ownerLedgerName");
             return full;
         }
 
@@ -122,6 +123,8 @@ import java.util.stream.Collectors;
                 filtered.put(col, full.get(col));
             }
         }
+        if(!resolvedColumns.contains("ownerLedgerName"))
+            filtered.remove("ownerLedgerName");
         return filtered;
     }
 
@@ -151,7 +154,7 @@ import java.util.stream.Collectors;
         Vehicle saved = vehicleRepository.save(vehicle);
         log.info("Vehicle created: vehicleId={}", saved.getVehicleId());
 
-        return toMap(saved, null); // full object on create
+        return toMap(vehicleMapper.toDTO(saved), null); // full object on create
     }
 
     // =========================================================================
@@ -188,7 +191,7 @@ import java.util.stream.Collectors;
         Vehicle updated = vehicleRepository.save(vehicle);
         log.info("Vehicle updated: vehicleId={} ", vehicleId);
 
-        return toMap(updated, null);
+        return toMap(vehicleMapper.toDTO(updated), null);
     }
 
     // =========================================================================
@@ -250,57 +253,34 @@ import java.util.stream.Collectors;
         }
     }
 
-    /**
-     * Resolves the "select" query param into a list of valid column names.
-     * - null/blank      -> returns null, meaning "all columns"
-     * - all invalid      -> throws 400 ValidationException
-     * - some valid        -> returns only the valid ones (invalid entries silently dropped)
-     //     */
-//    private List<String> resolveSelectColumns(String select) {
-//        if (select == null || select.trim().isEmpty()) {
-//            return null; // signal: return full object
-//        }
-//        List<String> valid = requested.stream()
-//                .filter(validColumns.VALID_COLUMNS::contains)
-//                .distinct()
-//                .collect(Collectors.toList());
-//
-//        if (valid.isEmpty()) {
-//            throw new ValidationException(
-//                    "Invalid column name(s) in select: " + select +
-//                            "INVALID_SELECT_COLUMN"
-//            );
-//        }
-//
-//        return valid; // may be a subset of requested; invalid ones dropped silently
-//    }
+
 
     /**
      * Builds a full field map, then filters down to resolvedColumns if not null.
      */
-    private Map<String, Object> toMap(Vehicle v, Set<String> resolvedColumns) {
-        Map<String, Object> full = new LinkedHashMap<>();
-        full.put("vehicleId", v.getVehicleId());
-        full.put("companyId", v.getCompanyId());
-        full.put("vehicleNo", v.getVehicleNo());
-        full.put("vehicleType", v.getVehicleType());
-        if (v.getOwnerLedger() != null && v.getOwnerLedger().getLedgerId() > 0)
-        {
-            full.put("ownerLedgerId", v.getOwnerLedger().getLedgerId());
-        }else {
-            full.put("ownerLedgerId", null);
-        }
-        full.put("createdAt", v.getCreatedAt());
-        full.put("updatedAt", v.getUpdatedAt());
-
-        if (resolvedColumns == null || resolvedColumns.isEmpty()) {
-            return full;
-        }
-
-        Map<String, Object> filtered = new LinkedHashMap<>();
-        for (String col : resolvedColumns) {
-            filtered.put(col, full.get(col));
-        }
-        return filtered;
-    }
+//    private Map<String, Object> toMap(Vehicle v, Set<String> resolvedColumns) {
+//        Map<String, Object> full = new LinkedHashMap<>();
+//        full.put("vehicleId", v.getVehicleId());
+//        full.put("companyId", v.getCompanyId());
+//        full.put("vehicleNo", v.getVehicleNo());
+//        full.put("vehicleType", v.getVehicleType());
+//        if (v.getOwnerLedger() != null && v.getOwnerLedger().getLedgerId() > 0)
+//        {
+//            full.put("ownerLedgerId", v.getOwnerLedger().getLedgerId());
+//        }else {
+//            full.put("ownerLedgerId", null);
+//        }
+//        full.put("createdAt", v.getCreatedAt());
+//        full.put("updatedAt", v.getUpdatedAt());
+//
+//        if (resolvedColumns == null || resolvedColumns.isEmpty()) {
+//            return full;
+//        }
+//
+//        Map<String, Object> filtered = new LinkedHashMap<>();
+//        for (String col : resolvedColumns) {
+//            filtered.put(col, full.get(col));
+//        }
+//        return filtered;
+//    }
 }

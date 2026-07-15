@@ -41,7 +41,7 @@ public final class ValidColumns {
     );
     private static final Set<String> VEHICLE_COLUMNS = Set.of(
             "vehicleId", "companyId", "vehicleNo", "vehicleType",
-            "ownerLedgerId", "createdAt", "updatedAt","ledgerName"
+            "ownerLedgerId", "createdAt", "updatedAt","ownerLedgerName"
     );
     // Group Entity
     public static final Set<String> GROUP_COLUMNS = Set.of(
