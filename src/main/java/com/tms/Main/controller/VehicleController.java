@@ -2,8 +2,10 @@ package com.tms.Main.controller;
 
 import com.tms.Main.Dto.VehicleRequest;
 import com.tms.Main.Service.impl.VehicleServiceImpl;
+import com.tms.Main.response.ApiResponsePattern;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +36,6 @@ import java.util.Map;
 @Validated
 public class VehicleController {
 
-
     private VehicleServiceImpl vehicleService;
 
     public VehicleController(VehicleServiceImpl vehicleService) {
@@ -48,16 +49,18 @@ public class VehicleController {
      * GET /api/vehicles?companyId=1&ownerLedgerId=5&select=vehicleNo,vehicleType
      */
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> getVehicles(
+    public ResponseEntity<ApiResponsePattern<Page<Map<String, Object>>>> getVehicles(
             @RequestParam Long companyId,
             @RequestParam(required = false) Long ownerLedgerId,
-            @RequestParam(required = false) List<String> select) {
+            @RequestParam(required = false) List<String> select,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
 
-        log.info("GET /api/vehicles companyId={} ownerLedgerId={} select={}",
-                companyId, ownerLedgerId, select);
+        log.info("GET /api/vehicles companyId={} ownerLedgerId={} select={} page={} size={}",
+                companyId, ownerLedgerId, select, page, size);
 
-        List<Map<String, Object>> result = vehicleService.getVehicles(companyId, ownerLedgerId, select);
-        return ResponseEntity.ok(result);
+        Page<Map<String, Object>> result = vehicleService.getVehicles(companyId, ownerLedgerId, select, page, size);
+        return ResponseEntity.ok(ApiResponsePattern.success(result));
     }
 
     /**
@@ -65,14 +68,14 @@ public class VehicleController {
      * GET /api/vehicles/{vehicleId}?select=vehicleNo -> selected columns only
      */
     @GetMapping("/{vehicleId}")
-    public ResponseEntity<Map<String, Object>> getVehicleById(
+    public ResponseEntity<ApiResponsePattern<Map<String, Object>>> getVehicleById(
             @PathVariable Long vehicleId,
             @RequestParam(required = false) List<String> select) {
 
         log.info("GET /api/vehicles/{} select={}", vehicleId, select);
 
         Map<String, Object> result = vehicleService.getVehicleById(vehicleId, select);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ApiResponsePattern.success(result));
     }
 
     /**
@@ -81,10 +84,10 @@ public class VehicleController {
      * must belong to the same companyId.
      */
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createVehicle(@Valid @RequestBody VehicleRequest request) {
+    public ResponseEntity<ApiResponsePattern<Map<String, Object>>> createVehicle(@Valid @RequestBody VehicleRequest request) {
         log.info("POST /api/vehicles companyId={} vehicleNo={}", request.getCompanyId(), request.getVehicleNo());
         Map<String, Object> result = vehicleService.createVehicle(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponsePattern.success(result));
     }
 
     /**
@@ -92,13 +95,13 @@ public class VehicleController {
      * Same validations as POST; companyId is immutable once the vehicle exists.
      */
     @PutMapping("/{vehicleId}")
-    public ResponseEntity<Map<String, Object>> updateVehicle(
+    public ResponseEntity<ApiResponsePattern<Map<String, Object>>> updateVehicle(
             @PathVariable Long vehicleId,
             @Valid @RequestBody VehicleRequest request) {
 
         log.info("PUT /api/vehicles/{} vehicleNo={}", vehicleId, request.getVehicleNo());
         Map<String, Object> result = vehicleService.updateVehicle(vehicleId, request);
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(ApiResponsePattern.success(result));
     }
 
     /**
@@ -106,9 +109,9 @@ public class VehicleController {
      * Rejected (409) if any trip references this vehicle.
      */
     @DeleteMapping("/{vehicleId}")
-    public ResponseEntity<Void> deleteVehicle(@PathVariable Long vehicleId) {
+    public ResponseEntity<ApiResponsePattern<Object>> deleteVehicle(@PathVariable Long vehicleId) {
         log.info("DELETE /api/vehicles/{}", vehicleId);
         vehicleService.deleteVehicle(vehicleId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponsePattern.success(null,"vehicle is deleted "));
     }
 }

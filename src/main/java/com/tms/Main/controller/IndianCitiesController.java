@@ -19,7 +19,7 @@ import com.tms.Main.response.ApiResponsePattern;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/cities")
 public class IndianCitiesController {
 	private IIndianCities citiesService;
 

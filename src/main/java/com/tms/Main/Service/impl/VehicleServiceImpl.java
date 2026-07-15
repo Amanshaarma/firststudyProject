@@ -1,9 +1,12 @@
 package com.tms.Main.Service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tms.Main.Dto.VehicleRequest;
+import com.tms.Main.Dto.VehicleResponseDTO;
 import com.tms.Main.Expection.ConstraintViolationException;
 import com.tms.Main.Expection.DuplicateResourceException;
-import com.tms.Main.Model.CompanyProfiles;
+import com.tms.Main.Mapper.VehicleMapper;
 import com.tms.Main.Model.Vehicle;
 import com.tms.Main.Model.Ledger;
 import com.tms.Main.Repository.CompanyRepository;
@@ -13,10 +16,13 @@ import com.tms.Main.Repository.VehicleRepository;
 import com.tms.Main.util.ValidColumns;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.tms.Main.Expection.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,8 +41,10 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class VehicleServiceImpl {
+    public class VehicleServiceImpl {
     private ValidColumns validColumns;
+    private final VehicleMapper vehicleMapper;
+    private final ObjectMapper objectMapper;
 
     private VehicleRepository vehicleRepository;
 
@@ -48,11 +56,15 @@ public class VehicleServiceImpl {
 
     private TripsRepository tripRepository;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository,TripsRepository tripRepository,  ValidColumns validColumns,CompanyRepository companyRepository, LedgerRepository ledgerRepository) {
+    private static final int MAX_PAGE_SIZE = 200;
+
+    public VehicleServiceImpl(VehicleRepository vehicleRepository, TripsRepository tripRepository, ValidColumns validColumns, VehicleMapper vehicleMapper, ObjectMapper objectMapper, CompanyRepository companyRepository, LedgerRepository ledgerRepository) {
         this.vehicleRepository = vehicleRepository;
+        this.vehicleMapper = vehicleMapper;
+        this.objectMapper = objectMapper;
         this.companyRepository = companyRepository;
         this.ledgerRepository = ledgerRepository;
-        this.validColumns =  validColumns;
+        this.validColumns = validColumns;
         this.tripRepository = tripRepository;
     }
 
@@ -62,31 +74,55 @@ public class VehicleServiceImpl {
     //   ownerLedgerId       -> optional
     //   select              -> optional
     // =========================================================================
-    public List<Map<String, Object>> getVehicles(Long companyId, Long ownerLedgerId, List<String> select) {
+
+
+    public Page<Map<String, Object>> getVehicles(Long companyId, Long ownerLedgerId, List<String> select,
+                                                 int page, int size) {
         validateCompanyExists(companyId);
 
-        List<Vehicle> vehicles;
-        if (ownerLedgerId != null) {
-            validateLedgerBelongsToCompany(ownerLedgerId, companyId);
-            vehicles = vehicleRepository.findByCompanyIdAndOwnerLedgerId(companyId, ownerLedgerId);
-        } else {
-            vehicles = vehicleRepository.findByCompanyId(companyId);
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("page must be >= 0 and size must be > 0");
+        }
+        if (size > MAX_PAGE_SIZE) {
+            throw new IllegalArgumentException("Page size must not exceed " + MAX_PAGE_SIZE);
         }
 
-        Set<String> resolvedColumns = validColumns.resolveFields(select,"VEHICLE_COLUMNS"); // null = all columns
-        return vehicles.stream()
-                .map(v -> toMap(v, resolvedColumns))
-                .collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("vehicleNo").ascending());
+
+        Page<Vehicle> vehiclePage;
+        if (ownerLedgerId != null) {
+            validateLedgerBelongsToCompany(ownerLedgerId, companyId);
+            vehiclePage = vehicleRepository.findByCompanyIdAndOwnerLedger(companyId, ownerLedgerId, pageable);
+        } else {
+            vehiclePage = vehicleRepository.findByCompanyId(companyId, pageable);
+        }
+
+        Set<String> resolvedColumns = validColumns.resolveFields(select, "VEHICLE_COLUMNS");
+        return vehiclePage.map(v -> toMap(vehicleMapper.toDTO(v), resolvedColumns));
     }
 
-    // =========================================================================
-    // GET (by vehicleId) - single consolidated endpoint
-    //   select -> optional
-    // =========================================================================
     public Map<String, Object> getVehicleById(Long vehicleId, List<String> select) {
-        Vehicle vehicle = findVehicleOrThrow(vehicleId);
-        Set<String> resolvedColumns =  validColumns.resolveFields(select,"VEHICLE_COLUMNS");
-        return toMap(vehicle, resolvedColumns);
+        Vehicle vehicle = vehicleRepository.findByIdWithOwnerLedger(vehicleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + vehicleId));
+
+        Set<String> resolvedColumns = validColumns.resolveFields(select, "VEHICLE_COLUMNS");
+        return toMap(vehicleMapper.toDTO(vehicle), resolvedColumns);
+    }
+
+    private Map<String, Object> toMap(VehicleResponseDTO dto, Set<String> resolvedColumns) {
+        Map<String, Object> full = objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {});
+
+        if (resolvedColumns == null || resolvedColumns.isEmpty()) {
+            return full;
+        }
+
+        Map<String, Object> filtered = new LinkedHashMap<>();
+        for (String col : resolvedColumns) {
+            if (full.containsKey(col)) {
+                filtered.put(col, full.get(col));
+            }
+        }
+        return filtered;
     }
 
     // =========================================================================
@@ -99,15 +135,18 @@ public class VehicleServiceImpl {
         validateCompanyExists(request.getCompanyId());
         checkVehicleNoDuplicate(request.getCompanyId(), request.getVehicleNo());
 
-        if (request.getOwnerLedgerId() != null) {
+        Ledger ownerLedger = null;
+        if (request.getOwnerLedgerId() != null && request.getOwnerLedgerId() > 0) {
             validateLedgerBelongsToCompany(request.getOwnerLedgerId(), request.getCompanyId());
-        }
+            ownerLedger = ledgerRepository.findById(request.getOwnerLedgerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()) );
 
+        }
         Vehicle vehicle = new Vehicle();
         vehicle.setCompanyId(request.getCompanyId());
         vehicle.setVehicleNo(request.getVehicleNo().trim());
         vehicle.setVehicleType(request.getVehicleType());
-        vehicle.setOwnerLedgerId(request.getOwnerLedgerId());
+        vehicle.setOwnerLedger(ownerLedger);
 
         Vehicle saved = vehicleRepository.save(vehicle);
         log.info("Vehicle created: vehicleId={}", saved.getVehicleId());
@@ -123,28 +162,28 @@ public class VehicleServiceImpl {
         log.info("Updating vehicle: vehicleId={} ", vehicleId);
 
         Vehicle vehicle = findVehicleOrThrow(vehicleId);
+        if (request.getCompanyId() != null )
+            validateCompanyExists(request.getCompanyId());
 
-        validateCompanyExists(request.getCompanyId());
-
-        if (!vehicle.getCompanyId().equals(request.getCompanyId())) {
-            throw new ValidationException(
-                    "Cannot change companyId for an existing vehicle" +
-                            " COMPANY_ID_IMMUTABLE"
-            );
+        if (request.getCompanyId() != null && !vehicle.getCompanyId().equals(request.getCompanyId())) {
+            throw new ValidationException("Cannot change companyId for an existing vehicle" + " COMPANY_ID_IMMUTABLE");
         }
 
         // Only re-check duplicate if vehicleNo actually changed (case-insensitive compare)
-        if (!vehicle.getVehicleNo().equalsIgnoreCase(request.getVehicleNo().trim())) {
+        if ( request.getVehicleNo() != null && !request.getVehicleNo().isEmpty() && !vehicle.getVehicleNo().equalsIgnoreCase(request.getVehicleNo().trim())) {
             checkVehicleNoDuplicate(request.getCompanyId(), request.getVehicleNo());
         }
-
-        if (request.getOwnerLedgerId() != null) {
+        Ledger ownerLedger =null;
+        if (request.getOwnerLedgerId() != null ) {
             validateLedgerBelongsToCompany(request.getOwnerLedgerId(), request.getCompanyId());
+            ownerLedger = ledgerRepository.findById(request.getOwnerLedgerId())
+                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()) );
+
         }
 
-        vehicle.setVehicleNo(request.getVehicleNo().trim());
-        vehicle.setVehicleType(request.getVehicleType());
-        vehicle.setOwnerLedgerId(request.getOwnerLedgerId());
+        vehicle.setVehicleNo(request.getVehicleNo() != null && !request.getVehicleNo().isEmpty() ? request.getVehicleNo().trim() : vehicle.getVehicleNo());
+        vehicle.setVehicleType(request.getVehicleType() != null  && !request.getVehicleType().isEmpty() ? request.getVehicleType().trim() : vehicle.getVehicleType());
+        vehicle.setOwnerLedger(ownerLedger);
 
         Vehicle updated = vehicleRepository.save(vehicle);
         log.info("Vehicle updated: vehicleId={} ", vehicleId);
@@ -163,11 +202,7 @@ public class VehicleServiceImpl {
 
         long tripCount = tripRepository.countByVehicleVehicleId(vehicleId);
         if (tripCount > 0) {
-            throw new ConstraintViolationException(
-                    "Cannot delete vehicle: " + tripCount + " trip(s) reference this vehicle" +
-                            "VEHICLE_HAS_DEPENDENT_TRIPS" +
-                            "trips", "409"
-            );
+            throw new ConstraintViolationException("Cannot delete vehicle: " + tripCount + " trip(s) reference this vehicle" + "VEHICLE_HAS_DEPENDENT_TRIPS" + "trips", "409");
         }
 
         vehicleRepository.delete(vehicle);
@@ -179,9 +214,7 @@ public class VehicleServiceImpl {
     // =========================================================================
 
     private Vehicle findVehicleOrThrow(Long vehicleId) {
-        return vehicleRepository.findById(vehicleId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Vehicle not found with ID: " + vehicleId + " VEHICLE_NOT_FOUND"));
+        return vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with ID: " + vehicleId + " VEHICLE_NOT_FOUND"));
     }
 
     /**
@@ -200,15 +233,10 @@ public class VehicleServiceImpl {
      * ownerLedgerId must exist AND belong to the same companyId (tenant isolation).
      */
     private void validateLedgerBelongsToCompany(Long ledgerId, Long companyId) {
-        Ledger ledger = ledgerRepository.findById(ledgerId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Ledger not found with ID: " + ledgerId + " LEDGER_NOT_FOUND"));
+        Ledger ledger = ledgerRepository.findById(ledgerId).orElseThrow(() -> new ResourceNotFoundException("Ledger not found with ID: " + ledgerId + " LEDGER_NOT_FOUND"));
 
         if (!ledger.getCompanyProfile().getCompanyId().equals(companyId)) {
-            throw new ValidationException(
-                    "ownerLedgerId " + ledgerId + " does not belong to companyId " + companyId +
-                            " LEDGER_COMPANY_MISMATCH"
-            );
+            throw new ValidationException("ownerLedgerId " + ledgerId + " does not belong to companyId " + companyId + " LEDGER_COMPANY_MISMATCH");
         }
     }
 
@@ -216,14 +244,9 @@ public class VehicleServiceImpl {
         if (vehicleNo == null || vehicleNo.trim().isEmpty()) {
             throw new ValidationException("vehicleNo cannot be null or empty" + " VEHICLE_NO_REQUIRED");
         }
-        boolean exists = vehicleRepository
-                .findByCompanyIdAndVehicleNoIgnoreCase(companyId, vehicleNo.trim())
-                .isPresent();
+        boolean exists = vehicleRepository.findByCompanyIdAndVehicleNoIgnoreCase(companyId, vehicleNo.trim()).isPresent();
         if (exists) {
-            throw new DuplicateResourceException(
-                    "Vehicle with number '" + vehicleNo + "' already exists for this company" +
-                            " VEHICLE_NO_DUPLICATE"
-            );
+            throw new DuplicateResourceException("Vehicle with number '" + vehicleNo + "' already exists for this company" + " VEHICLE_NO_DUPLICATE");
         }
     }
 
@@ -232,7 +255,7 @@ public class VehicleServiceImpl {
      * - null/blank      -> returns null, meaning "all columns"
      * - all invalid      -> throws 400 ValidationException
      * - some valid        -> returns only the valid ones (invalid entries silently dropped)
-//     */
+     //     */
 //    private List<String> resolveSelectColumns(String select) {
 //        if (select == null || select.trim().isEmpty()) {
 //            return null; // signal: return full object
@@ -261,7 +284,12 @@ public class VehicleServiceImpl {
         full.put("companyId", v.getCompanyId());
         full.put("vehicleNo", v.getVehicleNo());
         full.put("vehicleType", v.getVehicleType());
-        full.put("ownerLedgerId", v.getOwnerLedgerId());
+        if (v.getOwnerLedger() != null && v.getOwnerLedger().getLedgerId() > 0)
+        {
+            full.put("ownerLedgerId", v.getOwnerLedger().getLedgerId());
+        }else {
+            full.put("ownerLedgerId", null);
+        }
         full.put("createdAt", v.getCreatedAt());
         full.put("updatedAt", v.getUpdatedAt());
 

@@ -12,6 +12,7 @@ public final class ValidColumns {
 
     // Ledger Entity
     public static final Set<String> LEDGER_COLUMNS = Set.of(
+
             "ledgerId",
             "companyId",
             "groupId",
@@ -19,6 +20,7 @@ public final class ValidColumns {
             "openingBalance",
             "isBillByBill",
             "mailingName",
+            "address",
             "addressLine1",
             "addressLine2",
             "state",
@@ -35,17 +37,18 @@ public final class ValidColumns {
             "branchName",
             "createdAt",
             "updatedAt"
+
     );
     private static final Set<String> VEHICLE_COLUMNS = Set.of(
             "vehicleId", "companyId", "vehicleNo", "vehicleType",
-            "ownerLedgerId", "createdAt", "updatedAt"
+            "ownerLedgerId", "createdAt", "updatedAt","ledgerName"
     );
     // Group Entity
     public static final Set<String> GROUP_COLUMNS = Set.of(
             "groupId",
-            "globalGroup",
-            "companyProfile",
-            "parentGroup",
+            "globalGroupId",
+            "companyId",
+            "parentGroupId",
             "groupName",
             "groupType",
             "createdAt",

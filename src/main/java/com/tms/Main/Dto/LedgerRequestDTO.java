@@ -39,11 +39,11 @@ public class LedgerRequestDTO {
     private String country;
     private String pinCode;
 
-    public Boolean getBillByBill() {
+    public Boolean getIsBillByBill() {
         return isBillByBill;
     }
 
-    public void setBillByBill(Boolean billByBill) {
+    public void setIsBillByBill(Boolean billByBill) {
         isBillByBill = billByBill;
     }
 
@@ -119,13 +119,6 @@ public class LedgerRequestDTO {
 		this.openingBalance = openingBalance;
 	}
 
-	public Boolean getIsBillByBill() {
-		return isBillByBill;
-	}
-
-	public void setIsBillByBill(Boolean isBillByBill) {
-		this.isBillByBill = isBillByBill;
-	}
 
 	public String getMailingName() {
 		return mailingName;

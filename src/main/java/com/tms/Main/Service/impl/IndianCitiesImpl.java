@@ -2,6 +2,7 @@ package com.tms.Main.Service.impl;
 
 import java.util.List;
 
+import com.tms.Main.Expection.ResourceNotFoundException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class IndianCitiesImpl implements IIndianCities{
 	@Override
 	public IndianCities getCityById(String city) {
 		// TODO Auto-generated method stub
-		IndianCities ans = indianCitiesRepo.findByCityName(city).get();
+		IndianCities ans = indianCitiesRepo.findByCityName(city).orElseThrow(()-> new ResourceNotFoundException("cities is not found with this id " + city));
 		return ans;
 	}
 
