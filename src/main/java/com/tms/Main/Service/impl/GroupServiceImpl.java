@@ -110,6 +110,8 @@ public class GroupServiceImpl implements GroupService {
 
 		Set<String> fields = validColumns.resolveFields(select,"GROUP_COLUMNS");
 
+        System.out.println(groupPage);
+
 		return groupMapper.toDTOPageProjected(groupPage, fields); // ✅ single call
 	}
 
@@ -128,7 +130,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public void deleteGroup(Long groupId) {
+    @Transactional
+    public void deleteGroup(Long groupId) {
 		Group group = groupRepository.findById(groupId)
 				.orElseThrow(() -> new ResourceNotFoundException("Group not found with id: " + groupId));
 
@@ -141,7 +144,28 @@ public class GroupServiceImpl implements GroupService {
 		groupRepository.delete(group);
 	}
 
-	@Override
+    @Override
+    @Transactional
+    public GroupResponseDTO     updateGroup(GroupRequestDTO request,Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found with id: " + groupId));
+        GlobalGroup globalGroup = globalGroupRepository.findById(request.getGlobalGroupId()).orElseThrow(
+                () -> new ResourceNotFoundException("Group not found with id: " + groupId));
+        Group parentGroup = null;
+        if(request.getParentGroupId() != null && request.getParentGroupId() > 0)
+        {
+            parentGroup = groupRepository.findById(request.getParentGroupId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Group not found with id: " + request.getParentGroupId()));
+        }
+        group.setGroupName(request.getGroupName() != null && !request.getGroupName().trim().isEmpty() ? request.getGroupName(): group.getGroupName());
+        group.setGroupType(request.getGroupType() != null ?request.getGroupType() : group.getGroupType());
+        group.setGlobalGroup(globalGroup != null ? globalGroup : group.getGlobalGroup());
+        if(parentGroup != null)
+            group.setParentGroup(parentGroup);
+        return groupMapper.toDTO(groupRepository.save(group));
+    }
+
+    @Override
 	public Page<GroupResponseDTO> getGroupsByParentId(Long parentGroupId, int page, int size) {
 		// TODO Auto-generated method stub
 		return null;

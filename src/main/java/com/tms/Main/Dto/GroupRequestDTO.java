@@ -7,17 +7,17 @@ import jakarta.validation.constraints.NotNull;
 
 public class GroupRequestDTO {
 
-	@NotNull(message = "Company ID is required")
+
 	private Long companyId;
 
 	private Long globalGroupId; // optional
 
 	private Long parentGroupId; // optional — null if root group
 
-	@NotBlank(message = "Group name is required")
+
 	private String groupName;
 
-	@NotNull(message = "Group type is required")
+
 	private GroupType groupType;
 
 	public Long getCompanyId() {

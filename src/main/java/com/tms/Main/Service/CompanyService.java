@@ -10,7 +10,6 @@ public interface CompanyService {
 
 	CompanyResponseDTO getCompanyById(Long companyId);
 
-	List<CompanyResponseDTO> getCompaniesByUserId(Long userId);
 
-	List<CompanyResponseDTO> getCompaniesByUsersId(Long usersId);
+	List<CompanyResponseDTO> getCompaniesByUserId(Long usersId);
 }

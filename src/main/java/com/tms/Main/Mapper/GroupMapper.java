@@ -59,6 +59,7 @@ public interface GroupMapper {
         map.put("globalGroupId", dto.getGlobalGroupId());
         map.put("createdAt",     dto.getCreatedAt());
         map.put("updatedAt",     dto.getUpdatedAt());
+        map.put("isDefault" , dto.getIsDefault());
         return map;
     }
 

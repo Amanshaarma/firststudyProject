@@ -6,14 +6,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tms.Main.Dto.GroupRequestDTO;
 import com.tms.Main.Dto.GroupResponseDTO;
@@ -38,6 +31,12 @@ public class GroupController {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ApiResponsePattern.success(groupService.addGroup(request), "Group added successfully"));
 	}
+
+    @PutMapping
+    public ResponseEntity<ApiResponsePattern<GroupResponseDTO>> updateGroup(@RequestParam(required = true) Long groupId,@Valid @RequestBody GroupRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponsePattern.success(groupService.updateGroup(request,groupId), "Group updaated successfully"));
+    }
 
 	@GetMapping("/{groupId}")
 	public ResponseEntity<ApiResponsePattern<Map<String, Object>>> getGroupById(@PathVariable Long groupId,@RequestParam(required = false) List<String> select) {

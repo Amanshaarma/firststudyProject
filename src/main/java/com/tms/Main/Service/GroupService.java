@@ -3,6 +3,7 @@ package com.tms.Main.Service;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
 import com.tms.Main.Dto.GroupRequestDTO;
@@ -22,4 +23,6 @@ public interface GroupService {
 	Page<GroupResponseDTO> getRootGroups(int page, int size);
 
 	void deleteGroup(Long groupId);
+
+    GroupResponseDTO updateGroup(GroupRequestDTO request , Long groupId);
 }

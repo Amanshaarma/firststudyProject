@@ -52,7 +52,8 @@ public final class ValidColumns {
             "groupName",
             "groupType",
             "createdAt",
-            "updatedAt"
+            "updatedAt",
+            "isDefault"
     );
 
     // IndianCities Entity

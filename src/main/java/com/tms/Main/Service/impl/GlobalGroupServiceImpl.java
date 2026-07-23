@@ -1,5 +1,6 @@
 package com.tms.Main.Service.impl;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,4 +62,8 @@ public class GlobalGroupServiceImpl implements GlobalGroupService {
 		return globalGroupMapper
 				.toDTOPage(globalGroupRepository.findByGroupNameContainingIgnoreCase(groupName, pageable));
 	}
+    @Cacheable("globalGroups")
+    public GlobalGroup findByIdCached(Long id) {
+        return globalGroupRepository.findById(id).orElseThrow();
+    }
 }

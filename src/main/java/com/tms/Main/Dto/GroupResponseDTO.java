@@ -12,8 +12,17 @@ public class GroupResponseDTO {
 	private String groupType;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+    private  Boolean isDefault;
 
-	public Long getGroupId() {
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean aDefault) {
+        isDefault = aDefault;
+    }
+
+    public Long getGroupId() {
 		return groupId;
 	}
 

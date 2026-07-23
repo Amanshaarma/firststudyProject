@@ -2,6 +2,11 @@ package com.tms.Main.Service.impl;
 
 import java.util.List;
 
+import com.tms.Main.Model.GlobalGroup;
+import com.tms.Main.Model.Group;
+import com.tms.Main.Repository.GlobalGroupRepository;
+import com.tms.Main.Repository.GroupRepository;
+import com.tms.Main.enumData.GroupType;
 import org.springframework.stereotype.Service;
 
 import com.tms.Main.Dto.CompanyRequestDTO;
@@ -24,14 +29,16 @@ public class CompanyServiceImpl implements CompanyService {
 	private final CompanyRepository companyRepository;
 	private final UserRepository usersRepository;
 	private final CompanyMapper companyMapper;
+    private final GroupInitializationService groupInitializationService;
 
 	// D - Constructor injection
 	public CompanyServiceImpl(CompanyRepository companyRepository, UserRepository usersRepository,
-			CompanyMapper companyMapper) {
+                              CompanyMapper companyMapper, GlobalGroupRepository globalGroupRepository, GroupRepository groupRepository, GroupInitializationService groupInitializationService) {
 		this.companyRepository = companyRepository;
 		this.usersRepository = usersRepository;
 		this.companyMapper = companyMapper;
-	}
+        this.groupInitializationService = groupInitializationService;
+    }
 
 	@Override
 	@Transactional
@@ -64,6 +71,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 		// 4. Save & return
 		CompanyProfiles savedCompany = companyRepository.save(company);
+        groupInitializationService.createGroup(savedCompany);
 		return companyMapper.toDTO(savedCompany);
 	}
 
@@ -75,14 +83,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyResponseDTO> getCompaniesByUsersId(Long usersId) {
+	public List<CompanyResponseDTO> getCompaniesByUserId(Long usersId) {
 		List<CompanyProfiles> companies = companyRepository.findByUserUserId(usersId);
 		return companyMapper.toDTOList(companies);
-	}
-
-	@Override
-	public List<CompanyResponseDTO> getCompaniesByUserId(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
