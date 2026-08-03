@@ -59,14 +59,14 @@ public class Group {
 	private LocalDateTime updatedAt;
 
     @Column(name = "is_default")
-    private Boolean isDefault;
+    private Boolean isDefault = false;
 
-    public Boolean getDefault() {
+    public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(Boolean aDefault) {
-        isDefault = aDefault;
+    public void setIsDefault(Boolean aDefault) {
+        this.isDefault = aDefault;
     }
 
     public Long getGroupId() {

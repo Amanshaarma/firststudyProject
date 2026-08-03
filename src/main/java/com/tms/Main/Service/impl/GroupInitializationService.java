@@ -51,12 +51,12 @@ public class GroupInitializationService {
         Group expenses = build(customer, ggExpenses, "Expenses", null, GroupType.G);
         pending.add(expenses);
         pending.add(build(customer, ggExpenses, "Direct Expenses", expenses, GroupType.E));
-        pending.add(build(customer, ggExpenses, "Purchase Accounts", expenses, GroupType.E));
+        pending.add(build(customer, ggExpenses, "Purchase Accounts", expenses, GroupType.PR));
 
         Group income = build(customer, ggIncome, "Income", null, GroupType.G);
         pending.add(income);
         pending.add(build(customer, ggIncome, "Direct Incomes", income, GroupType.I));
-        pending.add(build(customer, ggIncome, "Sales Accounts", income, GroupType.I));
+        pending.add(build(customer, ggIncome, "Sales Accounts", income, GroupType.SL));
 
         groupRepository.saveAll(pending); // ✅ now actually batchable with SEQUENCE strategy
     }
@@ -69,6 +69,7 @@ public class GroupInitializationService {
         group.setGroupName(name);
         group.setParentGroup(parent); // works because SEQUENCE assigns parent.groupId in memory immediately
         group.setGroupType(type);
+        group.setIsDefault(true);
         return group;
     }
 }
