@@ -70,6 +70,7 @@ public class GroupInitializationService {
         group.setParentGroup(parent); // works because SEQUENCE assigns parent.groupId in memory immediately
         group.setGroupType(type);
         group.setIsDefault(true);
+        System.out.println(group);
         return group;
     }
 }

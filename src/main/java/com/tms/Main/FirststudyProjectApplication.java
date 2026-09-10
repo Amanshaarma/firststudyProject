@@ -5,14 +5,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @ComponentScan("com.tms.Main.*")
 @EnableCaching
 public class FirststudyProjectApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FirststudyProjectApplication.class, args); 
-//		System.out.println(new BCryptPasswordEncoder().encode("CryPmin@436AMShar"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
+		SpringApplication.run(FirststudyProjectApplication.class, args);
 	}
 
 }

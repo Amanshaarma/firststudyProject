@@ -5,19 +5,21 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 import com.tms.Main.enumData.GroupType;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "groups", indexes = { @Index(name = "idx_group_name", columnList = "group_name"),
 		@Index(name = "idx_group_type", columnList = "group_type"),
 		@Index(name = "idx_company_id", columnList = "company_id") })
 
+
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group {
@@ -59,79 +61,8 @@ public class Group {
 	private LocalDateTime updatedAt;
 
     @Column(name = "is_default")
-    private Boolean isDefault = false;
+    private Boolean isDefault;
 
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(Boolean aDefault) {
-        this.isDefault = aDefault;
-    }
-
-    public Long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
-
-	public GlobalGroup getGlobalGroup() {
-		return globalGroup;
-	}
-
-	public void setGlobalGroup(GlobalGroup globalGroup) {
-		this.globalGroup = globalGroup;
-	}
-
-	public CompanyProfiles getCompanyProfile() {
-		return companyProfile;
-	}
-
-	public void setCompanyProfile(CompanyProfiles companyProfile) {
-		this.companyProfile = companyProfile;
-	}
-
-	public Group getParentGroup() {
-		return parentGroup;
-	}
-
-	public void setParentGroup(Group parentGroup) {
-		this.parentGroup = parentGroup;
-	}
-
-	public String getGroupName() {
-		return groupName;
-	}
-
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
-
-	public GroupType getGroupType() {
-		return groupType;
-	}
-
-	public void setGroupType(GroupType groupType) {
-		this.groupType = groupType;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
 
 	@PrePersist
 	protected void onCreate() {
@@ -155,7 +86,7 @@ public class Group {
                 ", groupType=" + groupType +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", isdefault=" + isDefault +
+                ", isDefault=" + isDefault +
                 '}';
     }
 }

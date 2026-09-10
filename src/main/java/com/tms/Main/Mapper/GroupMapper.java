@@ -20,6 +20,7 @@ public interface GroupMapper {
     @Mapping(source = "companyProfile.companyId", target = "companyId")
     @Mapping(source = "parentGroup.groupId", target = "parentGroupId")
     @Mapping(source = "globalGroup.globalGroupId", target = "globalGroupId")
+    @Mapping(source = "isDefault", target = "isDefault")
     GroupResponseDTO toDTO(Group group);
 
     @Mapping(target = "groupId", ignore = true)

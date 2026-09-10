@@ -110,8 +110,6 @@ public class GroupServiceImpl implements GroupService {
 
 		Set<String> fields = validColumns.resolveFields(select,"GROUP_COLUMNS");
 
-        System.out.println(groupPage);
-
 		return groupMapper.toDTOPageProjected(groupPage, fields); // ✅ single call
 	}
 

@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-    public class VehicleServiceImpl {
+public class VehicleServiceImpl {
     private ValidColumns validColumns;
     private final VehicleMapper vehicleMapper;
     private final ObjectMapper objectMapper;
@@ -110,7 +110,8 @@ import java.util.stream.Collectors;
     }
 
     private Map<String, Object> toMap(VehicleResponseDTO dto, Set<String> resolvedColumns) {
-        Map<String, Object> full = objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> full = objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {
+        });
 
         if (resolvedColumns == null || resolvedColumns.isEmpty()) {
             full.remove("ownerLedgerName");
@@ -123,7 +124,7 @@ import java.util.stream.Collectors;
                 filtered.put(col, full.get(col));
             }
         }
-        if(!resolvedColumns.contains("ownerLedgerName"))
+        if (!resolvedColumns.contains("ownerLedgerName"))
             filtered.remove("ownerLedgerName");
         return filtered;
     }
@@ -142,7 +143,7 @@ import java.util.stream.Collectors;
         if (request.getOwnerLedgerId() != null && request.getOwnerLedgerId() > 0) {
             validateLedgerBelongsToCompany(request.getOwnerLedgerId(), request.getCompanyId());
             ownerLedger = ledgerRepository.findById(request.getOwnerLedgerId())
-                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()) );
+                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()));
 
         }
         Vehicle vehicle = new Vehicle();
@@ -165,7 +166,7 @@ import java.util.stream.Collectors;
         log.info("Updating vehicle: vehicleId={} ", vehicleId);
 
         Vehicle vehicle = findVehicleOrThrow(vehicleId);
-        if (request.getCompanyId() != null )
+        if (request.getCompanyId() != null)
             validateCompanyExists(request.getCompanyId());
 
         if (request.getCompanyId() != null && !vehicle.getCompanyId().equals(request.getCompanyId())) {
@@ -173,19 +174,19 @@ import java.util.stream.Collectors;
         }
 
         // Only re-check duplicate if vehicleNo actually changed (case-insensitive compare)
-        if ( request.getVehicleNo() != null && !request.getVehicleNo().isEmpty() && !vehicle.getVehicleNo().equalsIgnoreCase(request.getVehicleNo().trim())) {
+        if (request.getVehicleNo() != null && !request.getVehicleNo().isEmpty() && !vehicle.getVehicleNo().equalsIgnoreCase(request.getVehicleNo().trim())) {
             checkVehicleNoDuplicate(request.getCompanyId(), request.getVehicleNo());
         }
-        Ledger ownerLedger =null;
-        if (request.getOwnerLedgerId() != null ) {
+        Ledger ownerLedger = null;
+        if (request.getOwnerLedgerId() != null) {
             validateLedgerBelongsToCompany(request.getOwnerLedgerId(), request.getCompanyId());
             ownerLedger = ledgerRepository.findById(request.getOwnerLedgerId())
-                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()) );
+                    .orElseThrow(() -> new ResourceNotFoundException("ledger id is not found" + request.getOwnerLedgerId()));
 
         }
 
         vehicle.setVehicleNo(request.getVehicleNo() != null && !request.getVehicleNo().isEmpty() ? request.getVehicleNo().trim() : vehicle.getVehicleNo());
-        vehicle.setVehicleType(request.getVehicleType() != null  && !request.getVehicleType().isEmpty() ? request.getVehicleType().trim() : vehicle.getVehicleType());
+        vehicle.setVehicleType(request.getVehicleType() != null && !request.getVehicleType().isEmpty() ? request.getVehicleType().trim() : vehicle.getVehicleType());
         vehicle.setOwnerLedger(ownerLedger);
 
         Vehicle updated = vehicleRepository.save(vehicle);
@@ -203,7 +204,7 @@ import java.util.stream.Collectors;
 
         Vehicle vehicle = findVehicleOrThrow(vehicleId);
 
-        long tripCount = tripRepository.countByVehicleVehicleId(vehicleId);
+        long tripCount = tripRepository.countByVehicleId(vehicleId);
         if (tripCount > 0) {
             throw new ConstraintViolationException("Cannot delete vehicle: " + tripCount + " trip(s) reference this vehicle" + "VEHICLE_HAS_DEPENDENT_TRIPS" + "trips", "409");
         }
@@ -252,7 +253,6 @@ import java.util.stream.Collectors;
             throw new DuplicateResourceException("Vehicle with number '" + vehicleNo + "' already exists for this company" + " VEHICLE_NO_DUPLICATE");
         }
     }
-
 
 
     /**

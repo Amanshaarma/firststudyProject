@@ -1,20 +1,34 @@
 package com.tms.Main.Model;
 
+import com.tms.Main.enumData.FreightType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Table(name = "trips")
+@Table(
+        name = "trips",
+        indexes = {
+                @Index(name = "idx_trip_company_id", columnList = "company_id"),
+                @Index(name = "idx_trip_vehicle_id", columnList = "vehicle_id"),
+                @Index(name = "idx_trip_date", columnList = "trip_date"),
+                @Index(name = "idx_trip_lr_id", columnList = "lr_id")
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Trip {
 
     @Id
@@ -22,102 +36,119 @@ public class Trip {
     @Column(name = "trip_id")
     private Long tripId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = false)
-    private CompanyProfiles companyProfile;
+    @Column(name = "company_id", nullable = false)
+    private Long companyId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "sale_voucher_id")
-//    private Voucher saleVoucher;
+    @Column(name = "sale_voucher_id")
+    private Long saleVoucherId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "purchase_voucher_id")
-//    private Voucher purchaseVoucher;
+    @Column(name = "purchase_voucher_id")
+    private Long purchaseVoucherId;
 
     @Column(name = "trip_date", nullable = false)
     private LocalDate tripDate;
 
-    @Column(name = "lr_no", length = 100)
-    private String lrNo;
+    @Column(name = "vehicle_id", nullable = false)
+    private Long vehicleId;
 
-    @Column(name = "from_place", length = 255)
-    private String fromPlace;
+    @Column(name = "party_ledger_id", nullable = false)
+    private Long partyLedgerId;
 
-    @Column(name = "to_place", length = 255)
-    private String toPlace;
+    @Column(name = "supplier_ledger_id", nullable = false)
+    private Long supplierLedgerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    @Column(name = "sales_ledger_id", nullable = false)
+    private Long salesLedgerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "party_ledger_id")
-    private Ledger partyLedger;
+    @Column(name = "purchase_ledger_id", nullable = false)
+    private Long purchaseLedgerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_ledger_id")
-    private Ledger supplierLedger;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sales_ledger_id")
-    private Ledger salesLedger;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_ledger_id")
-    private Ledger purchaseLedger;
-
-    @Column(name = "party_weight", precision = 18, scale = 3)
+    @Column(name = "party_weight", nullable = false, precision = 19, scale = 4)
     private BigDecimal partyWeight;
 
-    @Column(name = "party_rate", precision = 18, scale = 2)
+    @Column(name = "party_rate", nullable = false, precision = 19, scale = 4)
     private BigDecimal partyRate;
 
-    @Column(name = "supplier_weight", precision = 18, scale = 3)
+    @Column(name = "supplier_weight", nullable = false, precision = 19, scale = 4)
     private BigDecimal supplierWeight;
 
-    @Column(name = "supplier_rate", precision = 18, scale = 2)
+    @Column(name = "supplier_rate", nullable = false, precision = 19, scale = 4)
     private BigDecimal supplierRate;
 
-    @Column(name = "party_freight", precision = 18, scale = 2)
+    @Column(name = "party_freight", nullable = false, precision = 19, scale = 4)
     private BigDecimal partyFreight;
 
-    @Column(name = "supplier_freight", precision = 18, scale = 2)
+    @Column(name = "supplier_freight", nullable = false, precision = 19, scale = 4)
     private BigDecimal supplierFreight;
 
-    @Column(name = "party_freight_type", length = 50)
-    private String partyFreightType;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(
+            name = "party_freight_type",
+            nullable = false,
+            columnDefinition = "freight_type_t"
+    )
+    private FreightType partyFreightType;
 
-    @Column(name = "supplier_freight_type", length = 50)
-    private String supplierFreightType;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(
+            name = "supplier_freight_type",
+            nullable = false,
+            columnDefinition = "freight_type_t"
+    )
+    private FreightType supplierFreightType;
 
-    @Column(name = "material", length = 255)
-    private String material;
-
-    @Column(name = "pod_rcv_date")
-    private LocalDate podRcvDate;
-
-    @Column(name = "pod_submit_date")
-    private LocalDate podSubmitDate;
-
-    @Column(name = "ulpoint_date")
-    private LocalDate ulpointDate;
-
-    @Column(name = "trip_completed_date")
-    private LocalDate tripCompletedDate;
-
-    @Column(name = "narration", columnDefinition = "TEXT")
+    @Column(name = "narration", nullable = false, length = 1000)
     private String narration;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "dispatch_details_id")
+    private Long dispatchDetailsId;
+
+    @Column(name = "material_inv_id")
+    private Long materialInvId;
+
+    @Column(name = "receipt_details_id")
+    private Long receiptDetailsId;
+
+    @Column(name = "e_way_bill_id")
+    private Long eWayBillId;
+
+    @Column(name = "party_billing_details_id")
+    private Long partyBillingDetailsId;
+
+    @Column(name = "supplier_billing_details_id")
+    private Long supplierBillingDetailsId;
+
+    @Column(name = "pod_rcv_id")
+    private Long podRcvId;
+
+    @Column(name = "pod_submit_id")
+    private Long podSubmitId;
+
+    @Column(name = "ul_point_id")
+    private Long ulPointId;
+
+    @Column(name = "trip_completed_id")
+    private Long tripCompletedId;
+
+    @Column(name = "from_city_id", nullable = false)
+    private Long fromCityId;
+
+    @Column(name = "to_city_id", nullable = false)
+    private Long toCityId;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
     }
 
     @PreUpdate
