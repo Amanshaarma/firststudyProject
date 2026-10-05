@@ -2,13 +2,16 @@ package com.tms.Main.Dto;
 
 import java.math.BigDecimal;
 
+import com.tms.Main.enumData.GstRegType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class LedgerRequestDTO {
 
 	@NotNull(message = "Company ID is required")
@@ -21,6 +24,7 @@ public class LedgerRequestDTO {
 	private String ledgerName;
 
 	private BigDecimal openingBalance = BigDecimal.ZERO;
+    private GstRegType gstRegType;
 	private Boolean isBillByBill = false;
 	private String mailingName;
 	private String address;
@@ -39,173 +43,5 @@ public class LedgerRequestDTO {
     private String country;
     private String pinCode;
 
-    public Boolean getIsBillByBill() {
-        return isBillByBill;
-    }
-
-    public void setIsBillByBill(Boolean billByBill) {
-        isBillByBill = billByBill;
-    }
-
-    public String getAddressLine1() {
-        return addressLine1;
-    }
-
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getPinCode() {
-        return pinCode;
-    }
-
-    public void setPinCode(String pinCode) {
-        this.pinCode = pinCode;
-    }
-
-    public Long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
-
-	public Long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
-	}
-
-	public String getLedgerName() {
-		return ledgerName;
-	}
-
-	public void setLedgerName(String ledgerName) {
-		this.ledgerName = ledgerName;
-	}
-
-	public BigDecimal getOpeningBalance() {
-		return openingBalance;
-	}
-
-	public void setOpeningBalance(BigDecimal openingBalance) {
-		this.openingBalance = openingBalance;
-	}
-
-
-	public String getMailingName() {
-		return mailingName;
-	}
-
-	public void setMailingName(String mailingName) {
-		this.mailingName = mailingName;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
-
-	public String getGstNo() {
-		return gstNo;
-	}
-
-	public void setGstNo(String gstNo) {
-		this.gstNo = gstNo;
-	}
-
-	public String getPanNo() {
-		return panNo;
-	}
-
-	public void setPanNo(String panNo) {
-		this.panNo = panNo;
-	}
-
-	public String getBankAcNo() {
-		return bankAcNo;
-	}
-
-	public void setBankAcNo(String bankAcNo) {
-		this.bankAcNo = bankAcNo;
-	}
-
-	public String getIfscCode() {
-		return ifscCode;
-	}
-
-	public void setIfscCode(String ifscCode) {
-		this.ifscCode = ifscCode;
-	}
-
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getBankAcHolderName() {
-		return bankAcHolderName;
-	}
-
-	public void setBankAcHolderName(String bankAcHolderName) {
-		this.bankAcHolderName = bankAcHolderName;
-	}
-
-	public String getBranchName() {
-		return branchName;
-	}
-
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
-	}
 
 }

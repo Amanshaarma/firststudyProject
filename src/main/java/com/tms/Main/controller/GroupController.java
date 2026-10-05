@@ -32,7 +32,7 @@ public class GroupController {
 				.body(ApiResponsePattern.success(groupService.addGroup(request), "Group added successfully"));
 	}
 
-    @PutMapping
+    @PutMapping("/{groupId}")
     public ResponseEntity<ApiResponsePattern<GroupResponseDTO>> updateGroup(@RequestParam(required = true) Long groupId,@Valid @RequestBody GroupRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponsePattern.success(groupService.updateGroup(request,groupId), "Group updaated successfully"));

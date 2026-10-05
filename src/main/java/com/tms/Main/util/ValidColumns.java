@@ -29,6 +29,7 @@ public final class ValidColumns {
             "mobileNo",
             "emailId",
             "gstNo",
+            "groupName",
             "panNo",
             "bankAcNo",
             "ifscCode",

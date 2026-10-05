@@ -18,6 +18,7 @@ public interface LedgerMapper {
 
  @Mapping(source = "companyProfile.companyId", target = "companyId")
  @Mapping(source = "group.groupId", target = "groupId")
+ @Mapping(source = "group.groupName", target =  "groupName")
  LedgerResponseDTO toDTO(Ledger ledger);
 
  @Mapping(target = "ledgerId", ignore = true)
@@ -88,6 +89,7 @@ default Page<Map<String, Object>> toDTOPageProjected(Page<Ledger> ledgers, Set<S
         map.put("state", dto.getState());
         map.put("country", dto.getCountry());
         map.put("pinCode", dto.getPinCode());
+        map.put("groupName",dto.getGroupName());
 
         return map;
     }

@@ -53,10 +53,11 @@ public class LedgerServiceImpl implements LedgerService {
 
 		Ledger ledger = ledgerRepository.findById(ledgerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Ledger not found: " + ledgerId));
-
 		LedgerResponseDTO dto = ledgerMapper.toDTO(ledger);
 
         Set<String> fields = validColumns.resolveFields(select, "LEDGER_COLUMNS");
+        System.out.println(dto);
+
 
         return ledgerMapper.toProjectedMap(dto, fields);
 	}
@@ -168,6 +169,12 @@ public class LedgerServiceImpl implements LedgerService {
 		ledger.setBankName(request.getBankName());
 		ledger.setBankAcHolderName(request.getBankAcHolderName());
 		ledger.setBranchName(request.getBranchName());
+        ledger.setAddressLine1(request.getAddressLine1());
+        ledger.setAddressLine2(request.getAddressLine2());
+        ledger.setState(request.getState());
+        ledger.setGstRegType(request.getGstRegType());
+        ledger.setCountry(request.getCountry());
+        ledger.setPinCode(request.getPinCode());
 
 		return ledgerMapper.toDTO(ledgerRepository.save(ledger));
 	}
