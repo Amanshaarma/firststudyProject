@@ -49,7 +49,8 @@ public class VoucherImpl implements VoucherService {
         Long voucherNo =
                 voucherCounterService.nextVoucherNumber(
                         request.getCompanyId(),
-                        fiscalYear
+                        fiscalYear,
+                        request.getVoucherTypeId()
                 );
 
         Vouchers voucher = Vouchers.builder()

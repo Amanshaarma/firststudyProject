@@ -13,10 +13,12 @@ public class VoucherCounterServiceImpl  implements VoucherCounterService {
 
     public Long nextVoucherNumber(
             Long companyId,
-            String financialYear) {
+            String financialYear,
+            Long voucherTypeId) {
 
         return repository.getNextVoucherNumber(
                 companyId,
+                voucherTypeId,
                 financialYear
         );
     }

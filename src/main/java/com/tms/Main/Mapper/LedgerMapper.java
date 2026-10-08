@@ -90,6 +90,7 @@ default Page<Map<String, Object>> toDTOPageProjected(Page<Ledger> ledgers, Set<S
         map.put("country", dto.getCountry());
         map.put("pinCode", dto.getPinCode());
         map.put("groupName",dto.getGroupName());
+        map.put("gstRegType",dto.getGstRegType());
 
         return map;
     }

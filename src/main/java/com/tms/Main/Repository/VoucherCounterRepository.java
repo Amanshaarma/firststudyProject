@@ -11,18 +11,35 @@ import org.springframework.stereotype.Repository;
 public interface VoucherCounterRepository
         extends JpaRepository<VoucherCounter, VoucherCounterId> {
     @Query(value = """
-    INSERT INTO voucher_counters
-        (company_id, financial_year, last_voucher_no, updated_at)
+    INSERT INTO voucher_sequences
+        (
+            company_id,
+            voucher_type_id,
+            fiscal_year,
+            last_number,
+            updated_at
+        )
     VALUES
-        (:companyId, :financialYear, 1, CURRENT_TIMESTAMP)
-    ON CONFLICT (company_id, financial_year)
+        (
+            :companyId,
+            :voucherTypeId,
+            :fiscalYear,
+            1,
+            CURRENT_TIMESTAMP
+        )
+    ON CONFLICT (
+        company_id,
+        voucher_type_id,
+        fiscal_year
+    )
     DO UPDATE SET
-        last_voucher_no = voucher_counters.last_voucher_no + 1,
+        last_number = voucher_sequences.last_number + 1,
         updated_at = CURRENT_TIMESTAMP
-    RETURNING last_voucher_no
+    RETURNING last_number
     """, nativeQuery = true)
     Long getNextVoucherNumber(
             @Param("companyId") Long companyId,
-            @Param("financialYear") String financialYear
+            @Param("voucherTypeId") Long voucherTypeId,
+            @Param("fiscalYear") String fiscalYear
     );
 }
