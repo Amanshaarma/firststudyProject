@@ -1,10 +1,12 @@
 package com.tms.Main.Model;
 
 import com.tms.Main.enumData.SourceType;
+import com.tms.Main.enumData.VoucherMode;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -62,6 +64,11 @@ public class Vouchers {
     @Enumerated(EnumType.STRING)
     @Column(name = "source_type", nullable = false, length = 50)
     private SourceType sourceType;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "voucher_mode_t", columnDefinition = "voucher_mode")
+    private VoucherMode voucherMode;
 
     @PrePersist
     protected void onCreate() {

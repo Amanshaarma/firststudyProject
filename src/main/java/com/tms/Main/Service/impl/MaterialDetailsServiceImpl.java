@@ -2,7 +2,6 @@ package com.tms.Main.Service.impl;
 
 import com.tms.Main.Dto.MaterialInvoiceRequest;
 import com.tms.Main.Mapper.MaterialInvoiceRequestMapper;
-import com.tms.Main.Mapper.MaterialInvoiceRequestMapperImpl;
 import com.tms.Main.Model.MaterialInvDetails;
 import com.tms.Main.Model.Trip;
 import com.tms.Main.Repository.MaterialInvoiceDetailsRepository;
@@ -30,10 +29,12 @@ public class MaterialDetailsServiceImpl implements MaterialDetailsService {
         List<MaterialInvDetails> invoices =
                 requests.stream()
                         .map(mapper::toEntity)
-                        .peek(invoice ->
+                        .peek(invoice ->{
                                 invoice.setCompanyId(
                                         trip.getCompanyId()
-                                ))
+                                );
+                        invoice.setTrip(trip);})
+
                         .toList();
 
         repository.saveAll(invoices);

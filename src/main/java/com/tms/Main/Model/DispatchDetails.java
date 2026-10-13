@@ -67,9 +67,6 @@ public class DispatchDetails {
     @Column(name = "consignor_gstn", length = 50)
     private String consignorGstn;
 
-    @Column(name = "material_id")
-    private Long materialId;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

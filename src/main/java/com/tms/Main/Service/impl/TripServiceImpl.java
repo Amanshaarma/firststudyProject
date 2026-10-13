@@ -1,16 +1,12 @@
 package com.tms.Main.Service.impl;
 
 
-import com.tms.Main.Dto.TripResponse;
 import com.tms.Main.Dto.TripTransactionRequest;
 import com.tms.Main.Model.Trip;
-import com.tms.Main.Repository.TripsRepository;
 import com.tms.Main.Service.*;
 import com.tms.Main.response.ApiResponsePattern;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -21,6 +17,7 @@ public class TripServiceImpl implements TripCreationService {
     private final TripDetailsService tripDetailsService;
     private final TripValidationService validationService;
     private final LrBookService lrBookService;
+    private final BillRefrenceService billRefrenceService;
 
     @Transactional
     public ApiResponsePattern<Object> createTrip(TripTransactionRequest request) {
@@ -34,7 +31,7 @@ public class TripServiceImpl implements TripCreationService {
                 voucherService.createSalesVoucher(
                         request.getSalesVoucher()
                 );
-
+        billRefrenceService.createBillReference(request.getSalesBillReference(),salesVoucherId);
         /*
          * 2. Create Purchase Voucher
          */
@@ -42,6 +39,8 @@ public class TripServiceImpl implements TripCreationService {
                 voucherService.createPurchaseVoucher(
                         request.getPurchaseVoucher()
                 );
+
+        billRefrenceService.createBillReference(request.getPurchaseBillReference(),purchaseVoucherId);
 
         /*
          * 3. Create Trip

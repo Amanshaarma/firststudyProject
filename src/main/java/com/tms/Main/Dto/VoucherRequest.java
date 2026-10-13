@@ -2,6 +2,7 @@ package com.tms.Main.Dto;
 
 
 import com.tms.Main.enumData.SourceType;
+import com.tms.Main.enumData.VoucherMode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,12 +34,10 @@ public class VoucherRequest {
 
     private String fiscalYear;
 
-    @Valid
-    @NotNull
-    private List<VoucherEntryRequest> voucherEntries;
+    private VoucherMode voucherMode;
 
     @Valid
     @NotNull
-    private List<BillReferenceRequest> billReference;
+    private List<VoucherEntryRequest> voucherEntries;
 
 }

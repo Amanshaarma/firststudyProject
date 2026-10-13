@@ -40,12 +40,11 @@ import java.util.List;
                 dispatch.setCompanyId(trip.getCompanyId());
                 dispatch.setTripId(trip.getTripId());
 
-                dispatch = dispatchRepository.save(dispatch);
+                DispatchDetails finalDispatch = dispatchRepository.save(dispatch);
 
                 if (request.getMaterialDetails() == null) {
                     continue;
                 }
-
                 List<MaterialDetails> materials =
                         request.getMaterialDetails()
                                 .stream()
@@ -54,6 +53,7 @@ import java.util.List;
                                     material.setCompanyId(
                                             trip.getCompanyId()
                                     );
+                                    material.setDispatchDetails(finalDispatch.getDispatchId());
                                 })
                                 .toList();
 

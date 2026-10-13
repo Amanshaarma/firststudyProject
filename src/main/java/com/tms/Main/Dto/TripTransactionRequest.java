@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,7 +20,15 @@ public class TripTransactionRequest {
 
     @Valid
     @NotNull
+    private List<BillReferenceRequest> salesBillReference;
+
+    @Valid
+    @NotNull
     private VoucherRequest purchaseVoucher;
+
+    @Valid
+    @NotNull
+    private List<BillReferenceRequest> purchaseBillReference;
 
     @Valid
     @NotNull

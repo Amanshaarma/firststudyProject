@@ -50,6 +50,13 @@ public class MaterialInvDetails {
     )
     private BigDecimal amount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "trip_id",
+            foreignKey = @ForeignKey(name = "fk_invoices_trip")
+    )
+    private Trip trip;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

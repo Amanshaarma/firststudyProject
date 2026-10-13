@@ -2,12 +2,10 @@ package com.tms.Main.Service.impl;
 
 import com.tms.Main.Dto.TripRequest;
 import com.tms.Main.Mapper.TripMapper;
-import com.tms.Main.Model.DispatchDetails;
 import com.tms.Main.Model.Trip;
 import com.tms.Main.Repository.TripsRepository;
 import com.tms.Main.Service.*;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +19,7 @@ public class TripDetailsServiceImpl implements TripDetailsService {
         private final ReceiptDetailsService receiptDetailsService;
         private final EwayDetailsService ewayDetailsService;
         private final TripStatusService tripStatusService;
+        private  final  TripDestinationService tripDestinationService;
 
 
         public Trip createTrip(
@@ -29,7 +28,6 @@ public class TripDetailsServiceImpl implements TripDetailsService {
                 Long purchaseVoucherId) {
 
             Trip trip = tripMapper.toEntity(request);
-            System.out.println("trips id "+trip.getCompanyId()+" "+request.getCompanyId());
             trip.setSaleVoucherId(salesVoucherId);
             trip.setPurchaseVoucherId(purchaseVoucherId);
 
@@ -44,6 +42,8 @@ public class TripDetailsServiceImpl implements TripDetailsService {
                     trip,
                     request.getDispatchDetails()
             );
+
+            tripDestinationService.addDestination(trip.getTripId(),request.getToCityId());
 
             invoiceService.create(
                     trip,

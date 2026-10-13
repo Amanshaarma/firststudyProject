@@ -2,11 +2,8 @@ package com.tms.Main.Service.impl;
 
 import com.tms.Main.Dto.VoucherEntryRequest;
 import com.tms.Main.Dto.VoucherRequest;
-import com.tms.Main.Mapper.BillReferenceMapper;
-import com.tms.Main.Model.BillReference;
 import com.tms.Main.Model.VoucherEntries;
 import com.tms.Main.Model.Vouchers;
-import com.tms.Main.Repository.BillReferenceRepository;
 import com.tms.Main.Repository.VoucherEntriesRepository;
 import com.tms.Main.Repository.VouchersRepository;
 import com.tms.Main.Service.VoucherCounterService;
@@ -25,8 +22,6 @@ public class VoucherImpl implements VoucherService {
     private final VouchersRepository vouchersRepository;
     private final VoucherEntriesRepository voucherEntriesRepository;
     private final VoucherCounterService voucherCounterService;
-    private final BillReferenceMapper billReferenceMapper;
-    private  final BillReferenceRepository billReferenceRepository;
 
     @Transactional
     public Long createSalesVoucher(VoucherRequest request) {
@@ -61,6 +56,7 @@ public class VoucherImpl implements VoucherService {
                 .fiscalYear(request.getFiscalYear())
                 .narration(request.getNarration())
                 .sourceType(request.getSourceType())
+                .voucherMode(request.getVoucherMode())
                 .build();
 
         voucher = vouchersRepository.save(voucher);
@@ -81,18 +77,6 @@ public class VoucherImpl implements VoucherService {
 
         voucherEntriesRepository.saveAll(entries);
 
-        List<BillReference> billReferences = request.getBillReference()
-                .stream()
-                .map(billRef -> BillReference.builder()
-                        .voucherId(voucherId)
-                        .refName(billRef.getRefName())
-                        .ledgerId(billRef.getLedgerId())
-                        .amount(billRef.getAmount())
-                        .companyId(request.getCompanyId())
-                        .mthdOfAdj(billRef.getMethodOfAdj())
-                        .agstBillReference(billRef.getAgstBillRefId())
-                        .build()).toList();
-        billReferenceRepository.saveAll(billReferences);
 
         return voucherId;
     }

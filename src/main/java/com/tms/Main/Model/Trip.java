@@ -2,17 +2,15 @@ package com.tms.Main.Model;
 
 import com.tms.Main.enumData.FreightType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(
@@ -75,6 +73,7 @@ public class Trip {
     @Column(name = "supplier_rate", nullable = false, precision = 19, scale = 4)
     private BigDecimal supplierRate;
 
+
     @Column(name = "party_freight", nullable = false, precision = 19, scale = 4)
     private BigDecimal partyFreight;
 
@@ -89,6 +88,7 @@ public class Trip {
             columnDefinition = "freight_type_t"
     )
     private FreightType partyFreightType;
+
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
@@ -141,8 +141,13 @@ public class Trip {
     @Column(name = "from_city_id", nullable = false)
     private Long fromCityId;
 
-    @Column(name = "to_city_id", nullable = false)
-    private Long toCityId;
+    @OneToMany(
+            mappedBy = "trip",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @OrderBy("sequenceNo ASC")
+    private List<TripDestination> destinations = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

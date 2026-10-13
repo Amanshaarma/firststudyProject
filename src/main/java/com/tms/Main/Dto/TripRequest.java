@@ -1,6 +1,7 @@
 package com.tms.Main.Dto;
 
 
+import com.tms.Main.enumData.FreightType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,19 +43,17 @@ public class TripRequest {
 
     private BigDecimal supplierFreight;
 
-    private String partyFreightType;
+    private FreightType partyFreightType;
 
-    private String supplierFreightType;
+    private FreightType supplierFreightType;
 
     private Long fromCityId;
 
-    private Long toCityId;
+    private List<Long> toCityId;
 
     private String narration;
 
     private List<Long> lrId;
-
-    private MaterialDetailsRequest materialDetails;
 
     private List<DispatchDetailsRequest> dispatchDetails;
 
