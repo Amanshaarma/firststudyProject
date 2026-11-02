@@ -37,7 +37,13 @@ public final class ValidColumns {
             "bankAcHolderName",
             "branchName",
             "createdAt",
-            "updatedAt"
+            "updatedAt",
+            "typeOfLedger",
+            "taxType",
+            "isGstApplicable",
+            "hsnSac",
+            "gstRate",
+            "typeOfSupply"
 
     );
     private static final Set<String> VEHICLE_COLUMNS = Set.of(

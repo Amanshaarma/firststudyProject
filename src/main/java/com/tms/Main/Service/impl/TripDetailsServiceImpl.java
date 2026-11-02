@@ -20,6 +20,7 @@ public class TripDetailsServiceImpl implements TripDetailsService {
         private final EwayDetailsService ewayDetailsService;
         private final TripStatusService tripStatusService;
         private  final  TripDestinationService tripDestinationService;
+        private final  BillingDetailsService billingDetailsService;
 
 
         public Trip createTrip(
@@ -30,6 +31,15 @@ public class TripDetailsServiceImpl implements TripDetailsService {
             Trip trip = tripMapper.toEntity(request);
             trip.setSaleVoucherId(salesVoucherId);
             trip.setPurchaseVoucherId(purchaseVoucherId);
+            Long partyBilling = billingDetailsService.createPartyBilling(request.getPartyBilling(),request.getCompanyId());
+
+            if(partyBilling != 0){
+                trip.setPartyBillingDetailsId(partyBilling);
+            }
+            Long supplierBilling =billingDetailsService.createSupplierBilling(request.getSupplierBilling(),request.getCompanyId());
+            if(supplierBilling != 0){
+                trip.setSupplierBillingDetailsId(supplierBilling);
+            }
 
             return tripRepository.save(trip);
         }

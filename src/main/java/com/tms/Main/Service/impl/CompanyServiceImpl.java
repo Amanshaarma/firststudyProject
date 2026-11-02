@@ -1,14 +1,5 @@
 package com.tms.Main.Service.impl;
 
-import java.util.List;
-
-import com.tms.Main.Model.GlobalGroup;
-import com.tms.Main.Model.Group;
-import com.tms.Main.Repository.GlobalGroupRepository;
-import com.tms.Main.Repository.GroupRepository;
-import com.tms.Main.enumData.GroupType;
-import org.springframework.stereotype.Service;
-
 import com.tms.Main.Dto.CompanyRequestDTO;
 import com.tms.Main.Dto.CompanyResponseDTO;
 import com.tms.Main.Expection.DuplicateResourceException;
@@ -17,10 +8,14 @@ import com.tms.Main.Mapper.CompanyMapper;
 import com.tms.Main.Model.CompanyProfiles;
 import com.tms.Main.Model.User;
 import com.tms.Main.Repository.CompanyRepository;
+import com.tms.Main.Repository.GlobalGroupRepository;
+import com.tms.Main.Repository.GroupRepository;
 import com.tms.Main.Repository.UserRepository;
 import com.tms.Main.Service.CompanyService;
-
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 //service/impl/CompanyServiceImpl.java
 @Service
@@ -75,12 +70,19 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyMapper.toDTO(savedCompany);
 	}
 
-	@Override
-	public CompanyResponseDTO getCompanyById(Long companyId) {
+    @Override
+    public CompanyResponseDTO getCompanyByIdByDto(Long companyId) {
+        return companyMapper.toDTO(getCompanyById(companyId));
+    }
+
+    @Override
+	public CompanyProfiles getCompanyById(Long companyId) {
 		CompanyProfiles company = companyRepository.findById(companyId)
 				.orElseThrow(() -> new ResourceNotFoundException("Company not found with id: " + companyId));
-		return companyMapper.toDTO(company);
+		return company;
 	}
+
+
 
 	@Override
 	public List<CompanyResponseDTO> getCompaniesByUserId(Long usersId) {

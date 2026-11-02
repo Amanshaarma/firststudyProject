@@ -75,7 +75,7 @@ public class TripStatusImpl implements TripStatusService {
 
         TripStatus status =
                 mapper.toEntity(request);
-
+        status.setDate(request.getStatusDate());
         status.setCompanyId(trip.getCompanyId());
         status.setTripId(trip.getTripId());
         status.setStatusType(statusType);

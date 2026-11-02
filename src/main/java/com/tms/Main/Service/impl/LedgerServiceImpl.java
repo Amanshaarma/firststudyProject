@@ -1,17 +1,5 @@
 package com.tms.Main.Service.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.tms.Main.util.ValidColumns;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import com.tms.Main.enumData.GroupType;
 import com.tms.Main.Dto.LedgerRequestDTO;
 import com.tms.Main.Dto.LedgerResponseDTO;
 import com.tms.Main.Expection.BadRequestException;
@@ -25,8 +13,18 @@ import com.tms.Main.Repository.CompanyRepository;
 import com.tms.Main.Repository.GroupRepository;
 import com.tms.Main.Repository.LedgerRepository;
 import com.tms.Main.Service.LedgerService;
-
+import com.tms.Main.enumData.GroupType;
+import com.tms.Main.util.ValidColumns;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 //service/impl/LedgerServiceImpl.java
 @Service
@@ -175,6 +173,12 @@ public class LedgerServiceImpl implements LedgerService {
         ledger.setGstRegType(request.getGstRegType());
         ledger.setCountry(request.getCountry());
         ledger.setPinCode(request.getPinCode());
+        ledger.setTypeOfLedger(request.getTypeOfLedger());
+        ledger.setTaxType(request.getTaxType());
+        ledger.setIsGstApplicable(request.getIsGstApplicable());
+        ledger.setHsnSac(request.getHsnSac());
+        ledger.setGstRate(request.getGstRate());
+        ledger.setTypeOfSupply(request.getTypeOfSupply());
 
 		return ledgerMapper.toDTO(ledgerRepository.save(ledger));
 	}

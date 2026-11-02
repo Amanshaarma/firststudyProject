@@ -1,11 +1,12 @@
 package com.tms.Main.Model;
 
 
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -38,6 +39,9 @@ public class LrBook {
     private LocalDate lrDate;
 
     @Column(name = "lr_no", nullable = false)
+    @NotBlank
+    @Size(max = 50)
+    @Pattern(regexp = "^[A-Za-z0-9/\\-]+$", message = "lrNo may contain letters, digits, '/' and '-'")
     private Long lrNo;
 
     @Column(name = "vehicle_id")

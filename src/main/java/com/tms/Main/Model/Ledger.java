@@ -1,15 +1,20 @@
 package com.tms.Main.Model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import com.tms.Main.enumData.GstRegType;
+import com.tms.Main.enumData.LedgerType;
+import com.tms.Main.enumData.SupplyType;
+import com.tms.Main.enumData.TaxType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 import org.hibernate.type.SqlTypes;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ledgers", indexes = { @Index(name = "idx_ledger_company_id", columnList = "company_id"),
@@ -97,6 +102,30 @@ public class Ledger {
 
     @Column(name = "pin_code")
     private String pinCode;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(name = "type_of_ledger", columnDefinition = "ledger_type_enum")
+    private LedgerType typeOfLedger;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(name = "tax_type", columnDefinition = "tax_type_enum")
+    private TaxType taxType;
+
+    @Column(name = "is_gst_applicable", nullable = false)
+    private Boolean isGstApplicable = false;
+
+    @Column(name = "hsn_sac", length = 8)
+    private String hsnSac;
+
+    @Column(name = "gst_rate", precision = 5, scale = 2)
+    private BigDecimal gstRate;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    @Column(name = "type_of_supply", columnDefinition = "supply_type_enum")
+    private SupplyType typeOfSupply;
 
 	@PrePersist
 	protected void onCreate() {

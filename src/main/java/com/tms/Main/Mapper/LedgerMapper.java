@@ -1,17 +1,16 @@
 package com.tms.Main.Mapper;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.tms.Main.Dto.LedgerRequestDTO;
+import com.tms.Main.Dto.LedgerResponseDTO;
+import com.tms.Main.Model.Ledger;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
-import com.tms.Main.Dto.LedgerRequestDTO;
-import com.tms.Main.Dto.LedgerResponseDTO;
-import com.tms.Main.Model.Ledger;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface LedgerMapper {
@@ -91,6 +90,12 @@ default Page<Map<String, Object>> toDTOPageProjected(Page<Ledger> ledgers, Set<S
         map.put("pinCode", dto.getPinCode());
         map.put("groupName",dto.getGroupName());
         map.put("gstRegType",dto.getGstRegType());
+        map.put("typeOfLedger", dto.getTypeOfLedger());
+        map.put("taxType", dto.getTaxType());
+        map.put("isGstApplicable", dto.getIsGstApplicable());
+        map.put("hsnSac", dto.getHsnSac());
+        map.put("gstRate", dto.getGstRate());
+        map.put("typeOfSupply", dto.getTypeOfSupply());
 
         return map;
     }

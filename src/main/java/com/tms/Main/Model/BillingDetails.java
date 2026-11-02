@@ -8,19 +8,23 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-
 @Table(name = "billing_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Builder
+@ToString
 public class BillingDetails {
 
     @Id
-    @Column(name = "ledger_id")
-    private Long ledgerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "billing_id")
+    private Long billId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private  CompanyProfiles companyId;
 
     @Column(name = "party_name", nullable = false, length = 255)
     private String partyName;
@@ -51,7 +55,6 @@ public class BillingDetails {
     private LocalDateTime updatedAt;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "ledger_id")
     private Ledger ledger;
 

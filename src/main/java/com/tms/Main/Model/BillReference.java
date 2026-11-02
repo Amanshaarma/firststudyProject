@@ -1,15 +1,16 @@
 package com.tms.Main.Model;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-
 import com.tms.Main.enumData.MethodOfAdj;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Entity(name = "bill_references")
 @Builder
@@ -25,6 +26,7 @@ public class BillReference {
     private Long voucherId;
 
     @Column(name = "ledger_id", nullable = false)
+    @NotNull( message = "Ledger id is not present")
     private Long ledgerId;
 
     @Column(name = "company_id", nullable = false)

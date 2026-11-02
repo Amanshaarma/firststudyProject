@@ -35,6 +35,7 @@ public class VoucherImpl implements VoucherService {
         return createVoucher(request);
     }
 
+    @Transactional
     private Long createVoucher(VoucherRequest request) {
 
         validateVoucher(request);
@@ -69,7 +70,7 @@ public class VoucherImpl implements VoucherService {
                         .map(entry -> VoucherEntries.builder()
                                 .voucherId(voucherId)
                                 .ledgerId(entry.getLedgerId())
-                                .amount(entry.getAmount().abs())
+                                .amount(entry.getAmount())
                                 .description(entry.getDescription())
                                 .companyId(request.getCompanyId())
                                 .build())

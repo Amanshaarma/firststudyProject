@@ -1,12 +1,15 @@
 package com.tms.Main.Dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import com.tms.Main.enumData.GstRegType;
+import com.tms.Main.enumData.LedgerType;
+import com.tms.Main.enumData.SupplyType;
+import com.tms.Main.enumData.TaxType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +41,10 @@ public class LedgerResponseDTO {
     private String pinCode;
     private String groupName;
     private GstRegType gstRegType;
+    private LedgerType typeOfLedger;
+    private TaxType taxType;
+    private Boolean isGstApplicable;
+    private String hsnSac;
+    private BigDecimal gstRate;
+    private SupplyType typeOfSupply;
 }

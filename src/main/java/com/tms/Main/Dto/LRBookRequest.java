@@ -1,7 +1,9 @@
 package com.tms.Main.Dto;
 
 
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +19,9 @@ public class LRBookRequest {
 
     private LocalDate lrDate;
 
+    @NotBlank(message = "lrNo is required")
+    @Size(max = 50)
+    @Pattern(regexp = "^[A-Za-z0-9/\\-]+$", message = "lrNo may contain letters, digits, '/' and '-'")
     private String lrNo;
 
     private Long consignorId;
