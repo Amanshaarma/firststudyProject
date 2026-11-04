@@ -6,8 +6,8 @@ import com.tms.Main.Model.EwayDetails;
 import com.tms.Main.Model.Trip;
 import com.tms.Main.Repository.EwayDetailsRepository;
 import com.tms.Main.Service.EwayDetailsService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +16,7 @@ public class EwayDetailsImpl implements EwayDetailsService {
     private final EwayDetailsRepository repository;
     private final EwayDetailsMapper mapper;
 
+    @Transactional
     public void create(
             Trip trip,
             EWayDetailsRequest request) {

@@ -35,7 +35,7 @@ public class EwayDetails {
     private LocalDate billDate;
 
     @Column(name = "bill_no", nullable = false)
-    private Long billNo;
+    private String billNo;
 
     @Column(name = "expiry_date", nullable = false)
     private LocalDate expiryDate;

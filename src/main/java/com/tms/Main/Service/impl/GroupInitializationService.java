@@ -44,7 +44,7 @@ public class GroupInitializationService {
         pending.add(liabilities);
         pending.add(currentLiabilities);
         pending.add(build(customer, ggLiabilities, "Sundry Creditors", currentLiabilities, GroupType.PS));
-        pending.add(build(customer, ggLiabilities, "Duties & Taxes", currentLiabilities, GroupType.E));
+        pending.add(build(customer, ggLiabilities, "Duties & Taxes", currentLiabilities, GroupType.DT));
 
         pending.add(build(customer, ggEquity, "Equity", null, GroupType.G));
 

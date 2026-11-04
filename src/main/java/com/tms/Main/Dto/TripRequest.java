@@ -1,6 +1,7 @@
 package com.tms.Main.Dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tms.Main.enumData.FreightType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,7 +65,7 @@ public class TripRequest {
     private BillingDetailsRequest supplierBilling;
 
     private ReceiptDetailsRequest receiptDetails;
-
+    @JsonProperty("eWayDetails")
     private EWayDetailsRequest eWayDetails;
 
     private TripStatusRequest ulPoint;
