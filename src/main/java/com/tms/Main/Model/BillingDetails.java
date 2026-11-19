@@ -54,10 +54,6 @@ public class BillingDetails {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ledger_id")
-    private Ledger ledger;
-
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();

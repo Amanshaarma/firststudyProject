@@ -65,6 +65,7 @@ public class TripRequest {
     private BillingDetailsRequest supplierBilling;
 
     private ReceiptDetailsRequest receiptDetails;
+
     @JsonProperty("eWayDetails")
     private EWayDetailsRequest eWayDetails;
 

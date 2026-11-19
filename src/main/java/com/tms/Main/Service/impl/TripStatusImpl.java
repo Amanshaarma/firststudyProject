@@ -57,9 +57,12 @@ public class TripStatusImpl implements TripStatusService {
                 podSubmit,
                 StatusType.POD_SUBMITTED
         );
-
-        if (!statuses.isEmpty()) {
+        System.out.println(statuses);
+        if (!statuses.isEmpty() && statuses.size() <= 4) {
             repository.saveAll(statuses);
+        }
+        else {
+            throw  new RuntimeException(statuses.toString());
         }
     }
 

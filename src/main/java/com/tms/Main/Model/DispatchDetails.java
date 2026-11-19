@@ -35,10 +35,7 @@ public class DispatchDetails {
     private LocalDate lrDate;
 
     @Column(name = "lr_no")
-//    @NotBlank
-//    @Size(max = 50)
-//    @Pattern(regexp = "^[A-Za-z0-9/\\-]+$", message = "lrNo may contain letters, digits, '/' and '-'")
-    private Long lrNo;
+    private String lrNo;
 
     @Column(name = "net_wt", precision = 19, scale = 4)
     private BigDecimal netWeight;
