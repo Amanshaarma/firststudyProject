@@ -12,7 +12,6 @@ public interface BillingDetailsMapper {
     BillingDetailsRequest toDto(BillingDetails entity);
 
     @Mapping(target = "billId", ignore = true)
-    @Mapping(target = "ledger" ,ignore = true)
     BillingDetails toEntity(BillingDetailsRequest dto);
 
     void updateEntityFromDto(
